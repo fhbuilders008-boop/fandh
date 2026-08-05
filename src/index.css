@@ -1,0 +1,152 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    color-scheme: dark;
+  }
+
+  html {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  /* Lenis drives scrolling; native smooth scroll is the no-JS fallback. */
+  html:not(.lenis) {
+    scroll-behavior: smooth;
+  }
+
+  /* `clip` (not `hidden`) — it contains stray horizontal overflow without
+     creating a scroll container, which would break the hero's position:sticky. */
+  html {
+    overflow-x: clip;
+  }
+
+  body {
+    @apply bg-maroonBg text-ivory font-sans antialiased;
+    overflow-x: clip;
+  }
+
+  /* Reduced motion: collapse the hero's scroll runway to a single screen. */
+  @media (prefers-reduced-motion: reduce) {
+    #hero {
+      height: 100svh;
+    }
+  }
+
+  ::selection {
+    background: #cd9f49;
+    color: #270101;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4 {
+    @apply font-display;
+  }
+
+  /* Gold scrollbar */
+  ::-webkit-scrollbar {
+    width: 10px;
+  }
+  ::-webkit-scrollbar-track {
+    background: #270101;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: linear-gradient(180deg, #ac7a2f, #cd9f49);
+    border-radius: 999px;
+  }
+
+  :focus-visible {
+    outline: 2px solid #e1bf6f;
+    outline-offset: 3px;
+    border-radius: 4px;
+  }
+}
+
+@layer components {
+  .container-x {
+    @apply mx-auto w-full max-w-7xl px-5 sm:px-8 lg:px-12;
+  }
+
+  .eyebrow {
+    @apply inline-flex items-center gap-3 text-[11px] font-medium uppercase tracking-widest2 text-gold/90;
+  }
+
+  .heading-xl {
+    @apply font-display text-4xl leading-[1.08] sm:text-5xl lg:text-6xl;
+  }
+
+  .heading-lg {
+    @apply font-display text-3xl leading-[1.12] sm:text-4xl lg:text-[2.9rem];
+  }
+
+  .body-muted {
+    @apply text-[15px] leading-relaxed text-ivory/70 sm:text-base;
+  }
+
+  .gold-text {
+    @apply bg-gold-gradient bg-clip-text text-transparent;
+  }
+
+  .glass {
+    @apply border border-gold/20 bg-white/[0.04] backdrop-blur-xl;
+  }
+
+  .hairline {
+    @apply h-px w-full bg-gradient-to-r from-transparent via-gold/40 to-transparent;
+  }
+
+  .btn {
+    @apply relative inline-flex items-center justify-center gap-2 rounded-full px-7 py-3.5 text-[13px] font-semibold uppercase tracking-[0.16em] transition-all duration-300 will-change-transform;
+  }
+
+  .btn-gold {
+    @apply btn bg-gold-gradient text-maroonDark shadow-goldSoft hover:-translate-y-0.5 hover:shadow-gold;
+  }
+
+  .btn-outline {
+    @apply btn border border-gold/50 text-gold hover:-translate-y-0.5 hover:border-gold hover:bg-gold/10 hover:shadow-goldSoft;
+  }
+
+  .btn-ghost {
+    @apply btn border border-ivory/25 text-ivory/90 hover:-translate-y-0.5 hover:border-ivory/60 hover:bg-white/5;
+  }
+
+  .card {
+    @apply relative overflow-hidden rounded-2xl border border-gold/15 bg-gradient-to-b from-white/[0.06] to-white/[0.015] p-7 transition-all duration-500;
+  }
+
+  .card-hover {
+    @apply hover:-translate-y-1.5 hover:border-gold/55 hover:shadow-gold;
+  }
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+
+  .noise {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)' opacity='0.5'/%3E%3C/svg%3E");
+  }
+
+  .mask-fade-b {
+    -webkit-mask-image: linear-gradient(to bottom, black 65%, transparent 100%);
+    mask-image: linear-gradient(to bottom, black 65%, transparent 100%);
+  }
+}
+
+/* Respect reduced-motion: kill all decorative motion. */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+}
