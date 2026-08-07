@@ -68,9 +68,73 @@ export const IconGrowth = (p) => (
   </svg>
 )
 
+/* Geotechnical investigation — bore probe through stratified soil. */
+export const IconGeotech = (p) => (
+  <svg {...base} {...p}>
+    <path d="M3 13h18M3 17h18M3 21h18" />
+    <path d="M12 3v9" />
+    <path d="m9 6 3-3 3 3" />
+    <path d="M7.5 13v8M16.5 13v8" />
+  </svg>
+)
+
 export const IconCheck = (p) => (
   <svg {...base} {...p}>
     <path d="m4.5 12.5 5 5 10-11" />
+  </svg>
+)
+
+/* ── Assurance strip ─────────────────────────────────────────────────── */
+
+export const IconShield = (p) => (
+  <svg {...base} {...p}>
+    <path d="M12 3l7.5 3v5.6c0 4.5-3 8.1-7.5 9.4-4.5-1.3-7.5-4.9-7.5-9.4V6z" />
+    <path d="m8.8 12 2.3 2.3L15.4 10" />
+  </svg>
+)
+
+export const IconTeam = (p) => (
+  <svg {...base} {...p}>
+    <circle cx="9" cy="8" r="3.2" />
+    <path d="M2.8 20a6.2 6.2 0 0 1 12.4 0" />
+    <path d="M16.2 5.6a3.2 3.2 0 0 1 0 6.2M17.6 14.4A6.2 6.2 0 0 1 21.2 20" />
+  </svg>
+)
+
+export const IconClock = (p) => (
+  <svg {...base} {...p}>
+    <circle cx="12" cy="13.5" r="7.5" />
+    <path d="M12 9.5v4l2.6 1.8" />
+    <path d="M9.4 2.5h5.2M12 2.5v3.5" />
+  </svg>
+)
+
+export const IconHeartHand = (p) => (
+  <svg {...base} {...p}>
+    <path d="M12 10.4 10.8 9.2a2.2 2.2 0 1 0-3.1 3.1l4.3 4.2 4.3-4.2a2.2 2.2 0 1 0-3.1-3.1z" />
+    <path d="M3 20.5h3.2l2.6 1.2h4.6l6.1-2.6a1.5 1.5 0 0 0-1.4-2.6l-4 1.4" />
+  </svg>
+)
+
+/* ── Social ──────────────────────────────────────────────────────────── */
+
+export const IconFacebook = (p) => (
+  <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" {...p}>
+    <path d="M13.5 21v-8h2.7l.4-3.1h-3.1V7.9c0-.9.25-1.5 1.55-1.5h1.65V3.6a22 22 0 0 0-2.4-.12c-2.4 0-4.05 1.46-4.05 4.15V9.9H7.5V13h2.75v8z" />
+  </svg>
+)
+
+export const IconInstagram = (p) => (
+  <svg {...base} {...p}>
+    <rect x="3.2" y="3.2" width="17.6" height="17.6" rx="5" />
+    <circle cx="12" cy="12" r="4" />
+    <circle cx="16.9" cy="7.1" r="0.9" fill="currentColor" stroke="none" />
+  </svg>
+)
+
+export const IconLinkedIn = (p) => (
+  <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" {...p}>
+    <path d="M6.94 8.5H4.1V20h2.84zM5.52 3.9a1.65 1.65 0 1 0 0 3.3 1.65 1.65 0 0 0 0-3.3M20 13.6c0-3.1-1.66-4.55-3.87-4.55a3.34 3.34 0 0 0-3.03 1.67h-.04V8.5H9.34V20h2.84v-5.7c0-1.5.29-2.95 2.15-2.95s1.84 1.72 1.84 3.05V20H19z" />
   </svg>
 )
 

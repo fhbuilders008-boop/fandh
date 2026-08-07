@@ -17,6 +17,8 @@ const INTERESTS = [
   'Premium Villa Project',
   'Villa Plot',
   'Residential Construction',
+  'Geotechnical Investigation',
+  'Construction Consultancy',
   'Interior Solutions',
   'Something else',
 ]
@@ -129,9 +131,11 @@ export default function Contact() {
                     <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full border border-gold/35 bg-gold/10 text-gold">
                       <IconPin className="h-5 w-5" />
                     </span>
-                    <span>
+                    <span className="min-w-0">
                       <span className="block text-[10px] uppercase tracking-widest2 text-ivory/45">Office</span>
-                      <span className="mt-0.5 block text-[15px] leading-relaxed text-ivory/85">{ADDRESS}</span>
+                      <span className="mt-0.5 block text-balance text-[15px] leading-relaxed text-ivory/85">
+                        {ADDRESS}
+                      </span>
                     </span>
                   </li>
                 </ul>
@@ -143,7 +147,7 @@ export default function Contact() {
                 <iframe
                   title="F&H Builders & Developers office location"
                   src={MAP_EMBED_SRC}
-                  className="h-[280px] w-full grayscale-[0.35] contrast-125"
+                  className="h-[260px] w-full grayscale-[0.35] contrast-125 sm:h-[320px]"
                   loading="lazy"
                   referrerPolicy="no-referrer-when-downgrade"
                   allowFullScreen

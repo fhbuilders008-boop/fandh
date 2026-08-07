@@ -1,16 +1,36 @@
+import { unsplash, unsplashSrcSet } from '../../lib/images'
+
 /**
- * Cinematic, asset-free backdrop: layered maroon gradients, an architectural
- * line-art silhouette, film grain and a vignette.
+ * Cinematic backdrop: a villa photograph pushed deep behind layered maroon
+ * gradients, an architectural line-art silhouette, film grain and a vignette.
  *
- * To swap in real photography or video, drop the file in /public and render
- * <img src="/villa.jpg" /> or <video src="/villa.mp4" /> as the bottom layer —
- * the gradient + vignette layers below are already tuned to sit on top of it.
+ * The photo is optional — pass `photoId` to use one. Without it (or if the CDN
+ * request fails) the gradient stack alone still reads as a finished backdrop,
+ * which is why every layer below is tuned to stand on its own.
  */
-export default function Backdrop({ variant = 'hero', className = '' }) {
+export default function Backdrop({ variant = 'hero', photoId, priority = false, className = '' }) {
   return (
     <div className={`pointer-events-none absolute inset-0 overflow-hidden ${className}`} aria-hidden="true">
       {/* Base wash */}
       <div className="absolute inset-0 bg-maroon-fade" />
+
+      {/* Photographic bed */}
+      {photoId && (
+        <img
+          src={unsplash(photoId, 1600)}
+          srcSet={unsplashSrcSet(photoId)}
+          sizes="100vw"
+          alt=""
+          aria-hidden="true"
+          loading={priority ? 'eager' : 'lazy'}
+          fetchPriority={priority ? 'high' : 'auto'}
+          decoding="async"
+          className="absolute inset-0 h-full w-full scale-105 object-cover opacity-[0.38] mix-blend-luminosity"
+        />
+      )}
+
+      {/* Maroon glaze that pulls the photograph back into the palette */}
+      {photoId && <div className="absolute inset-0 bg-maroonBg/55" />}
 
       {/* Warm gold light source */}
       <div

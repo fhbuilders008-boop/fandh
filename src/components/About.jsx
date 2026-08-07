@@ -1,7 +1,10 @@
 import { useRef } from 'react'
 import { motion, useScroll, useTransform } from 'framer-motion'
 import Reveal from './Reveal'
-import ArchVisual from './visuals/ArchVisual'
+import GoldDivider from './GoldDivider'
+import Photo from './Photo'
+import { COMPANY, STATS } from '../data/content'
+import { IMAGES } from '../lib/images'
 import { TAGLINE, waLink } from '../lib/site'
 
 export default function About() {
@@ -26,31 +29,26 @@ export default function About() {
 
           <Reveal delay={0.06}>
             <h2 className="heading-lg mt-5 text-balance text-ivory">
-              Crafting Timeless Luxury.{' '}
-              <span className="gold-text italic">Building Extraordinary Living.</span>
+              Building Dreams.{' '}
+              <span className="gold-text italic">Creating Legacies.</span>
             </h2>
           </Reveal>
 
-          <Reveal delay={0.12}>
-            <p className="body-muted mt-6">
-              A house is poured in weeks. A home is built over a lifetime of mornings — the light
-              that finds the staircase at seven, the doorway your children will measure their height
-              against, the veranda where your parents will sit and feel proud. That is what we are
-              really building.
-            </p>
+          <GoldDivider delay={0.2} width={168} className="mt-7" />
+
+          <Reveal delay={0.24}>
+            <p className="body-muted mt-7">{COMPANY.intro}</p>
           </Reveal>
 
           <Reveal delay={0.18}>
-            <p className="body-muted mt-4">
-              F&amp;H Builders &amp; Developers works in a narrow, deliberate lane: a limited number
-              of luxury villas each year, each one detailed to a standard we would accept for our
-              own families. We choose the stone in person. We test the steel. We stay past sunset
-              when a joint is not sitting right. And we hand over on the day we promised — because
-              trust, once cracked, cannot be plastered over.
-            </p>
+            <p className="body-muted mt-4">{COMPANY.approach}</p>
           </Reveal>
 
-          <Reveal delay={0.24}>
+          <Reveal delay={0.22}>
+            <p className="body-muted mt-4">{COMPANY.promise}</p>
+          </Reveal>
+
+          <Reveal delay={0.26}>
             <blockquote className="mt-9 border-l-2 border-gold/60 pl-6">
               <p className="font-display text-xl italic text-gold sm:text-2xl">“{TAGLINE}”</p>
               <footer className="mt-2 text-xs uppercase tracking-[0.18em] text-ivory/50">
@@ -59,7 +57,21 @@ export default function About() {
             </blockquote>
           </Reveal>
 
+          {/* Headline numbers */}
           <Reveal delay={0.3}>
+            <dl className="mt-9 grid grid-cols-3 gap-4 border-y border-gold/15 py-6">
+              {STATS.map((stat) => (
+                <div key={stat.label}>
+                  <dt className="font-display text-3xl text-gold sm:text-4xl">{stat.value}</dt>
+                  <dd className="mt-1 text-[10.5px] uppercase tracking-[0.14em] text-ivory/55 sm:text-[11px]">
+                    {stat.label}
+                  </dd>
+                </div>
+              ))}
+            </dl>
+          </Reveal>
+
+          <Reveal delay={0.34}>
             <div className="mt-9 flex flex-wrap gap-3">
               <a href="#projects" className="btn-outline">
                 Explore Our Work
@@ -80,20 +92,25 @@ export default function About() {
         <motion.div style={{ y }} className="relative">
           <Reveal direction="left" duration={0.85}>
             <div className="relative overflow-hidden rounded-3xl border border-gold/20 shadow-deep">
-              <ArchVisual variant={1} className="h-[380px] w-full sm:h-[460px]" />
-              <div className="absolute inset-0 bg-gradient-to-t from-maroonDark via-maroonDark/10 to-transparent" />
+              <Photo
+                id={IMAGES.aboutInterior}
+                alt="Living pavilion in an F&H Builders villa, finished in timber and stone"
+                className="h-[380px] w-full sm:h-[500px]"
+                sizes="(min-width: 1024px) 45vw, 100vw"
+                fallbackVariant={4}
+              />
+              <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-maroonDark via-maroonDark/15 to-transparent" />
             </div>
           </Reveal>
 
+          {/* Years-of-excellence plate, overlapping the photograph */}
           <Reveal direction="up" delay={0.2}>
-            <div className="glass absolute -bottom-8 -left-4 w-[220px] rounded-2xl p-5 shadow-deep sm:-left-10 sm:w-[260px]">
-              <p className="font-display text-4xl text-gold">12+</p>
-              <p className="mt-1 text-[11px] uppercase tracking-[0.16em] text-ivory/65">
-                Years of building in Kerala
-              </p>
-              <div className="hairline my-4" />
-              <p className="text-[13px] leading-relaxed text-ivory/70">
-                150+ families, one standard — the one we would want for our own.
+            <div className="absolute -bottom-8 -left-4 flex w-[230px] items-center gap-4 rounded-2xl bg-gold-gradient p-5 shadow-deep sm:-left-10 sm:w-[268px]">
+              <p className="font-display text-4xl leading-none text-maroonDark sm:text-5xl">12+</p>
+              <p className="text-[11px] font-semibold uppercase leading-snug tracking-[0.14em] text-maroonDark/80">
+                Years of
+                <br />
+                Excellence
               </p>
             </div>
           </Reveal>

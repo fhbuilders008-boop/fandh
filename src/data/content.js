@@ -7,7 +7,57 @@ import {
   IconBlueprint,
   IconInterior,
   IconGrowth,
+  IconGeotech,
+  IconShield,
+  IconTeam,
+  IconClock,
+  IconHeartHand,
 } from '../components/Icons'
+import { IMAGES } from '../lib/images'
+
+/**
+ * Company profile — the canonical description of F&H Builders & Developers.
+ * Rendered by the About section; keep marketing copy edits in one place.
+ */
+export const COMPANY = {
+  intro:
+    'F & H Builders & Developers is a premium real estate and construction company committed to creating exceptional living spaces across Kerala. We specialise in luxury villas, premium villa plots, residential construction, geotechnical investigation and complete construction consultancy.',
+  approach:
+    'Every project is thoughtfully designed with modern architecture, expert structural engineering, comprehensive geotechnical investigation, superior craftsmanship and premium quality materials — ensuring safety, durability, elegance and long-term value. Our geotechnical investigations provide accurate soil analysis and foundation recommendations, enabling safe, stable and cost-effective construction.',
+  promise:
+    'We are committed to delivering exceptional comfort, innovative design, engineering excellence and complete customer satisfaction in every project we undertake.',
+}
+
+/** Assurance strip directly beneath the hero. */
+export const ASSURANCES = [
+  {
+    icon: IconShield,
+    title: 'Quality Assurance',
+    copy: 'Premium materials, grade-tested steel and a third-party audit at every structural milestone.',
+  },
+  {
+    icon: IconTeam,
+    title: 'Expert Team',
+    copy: 'Architects, structural engineers and geotechnical specialists working as one accountable team.',
+  },
+  {
+    icon: IconClock,
+    title: 'On-Time Delivery',
+    copy: 'Milestone-linked schedules, written into the agreement and honoured on the promised date.',
+  },
+  {
+    icon: IconHeartHand,
+    title: 'Customer Satisfaction',
+    copy: 'Complete transparency from soil report to handover — and long after the keys change hands.',
+  },
+]
+
+/** Headline numbers, shared by the About section. */
+export const STATS = [
+  { value: '150+', label: 'Projects Completed' },
+  { value: '100+', label: 'Happy Clients' },
+  { value: '12+', label: 'Years of Experience' },
+]
 
 export const SERVICES = [
   {
@@ -29,6 +79,11 @@ export const SERVICES = [
     icon: IconHome,
     title: 'Residential Construction',
     copy: 'Family homes delivered with the same discipline as our flagship villas — structural integrity you will never have to think about.',
+  },
+  {
+    icon: IconGeotech,
+    title: 'Geotechnical Investigation',
+    copy: 'Borehole testing, accurate soil analysis and clear foundation recommendations — so the ground is understood before a single rupee is spent above it.',
   },
   {
     icon: IconConsult,
@@ -57,54 +112,66 @@ export const PROJECTS = [
     name: 'Villa Serene',
     location: 'Kakkanad, Kochi',
     status: 'Ongoing',
+    category: 'Villas',
     highlight: '4 BHK · 3,850 sq.ft · Private courtyard & plunge pool',
     blurb:
       'A calm, light-filled villa built around a central courtyard, where the monsoon becomes part of the architecture.',
+    image: IMAGES.villaSerene,
     variant: 0,
   },
   {
     name: 'The Heritage Residences',
     location: 'Thrissur',
     status: 'Completed',
+    category: 'Villas',
     highlight: '5 BHK · 5,200 sq.ft · Nalukettu-inspired elevation',
     blurb:
       'Traditional Kerala proportions rendered in contemporary materials — carved teak, laterite and glass in one breath.',
+    image: IMAGES.heritage,
     variant: 1,
   },
   {
     name: 'F&H Skyline Enclave',
     location: 'Edappally, Kochi',
     status: 'Ongoing',
+    category: 'Residential',
     highlight: '12 premium villas · Gated · Clubhouse & landscaped spine',
     blurb:
       'A limited enclave of twelve homes, each with its own garden frontage and a shared clubhouse that feels like a resort.',
+    image: IMAGES.skyline,
     variant: 2,
   },
   {
     name: 'Palm Grove Villa Plots',
-    location: 'Aluva',
+    location: 'Aluva, Ernakulam',
     status: 'Ongoing',
+    category: 'Villa Plots',
     highlight: '18 plots · 6–12 cents · Clear title, approved layout',
     blurb:
-      'Ready-to-build plots on a quiet palm-lined stretch, minutes from the highway yet entirely removed from it.',
+      'Ready-to-build plots on a quiet palm-lined stretch, minutes from the highway yet entirely removed from it. Soil-tested before listing.',
+    image: IMAGES.palmGrove,
     variant: 3,
   },
   {
     name: 'Casa Mirada',
     location: 'Kozhikode',
     status: 'Completed',
+    category: 'Villas',
     highlight: '4 BHK · 4,100 sq.ft · Double-height living pavilion',
     blurb:
       'A hillside home with a living pavilion that opens completely to the west, built for long evenings and longer conversations.',
+    image: IMAGES.casaMirada,
     variant: 4,
   },
   {
     name: 'The Waterline',
     location: 'Alappuzha',
     status: 'Completed',
+    category: 'Villas',
     highlight: '3 BHK · 3,200 sq.ft · Backwater frontage & infinity deck',
     blurb:
-      'A backwater retreat where the deck reads as an extension of the water — engineered for humidity, built to last.',
+      'A backwater retreat where the deck reads as an extension of the water — piled to a geotechnical report, built for humidity.',
+    image: IMAGES.waterline,
     variant: 5,
   },
 ]
@@ -125,6 +192,10 @@ export const WHY_US = [
   {
     title: 'Modern Architecture',
     copy: 'Contemporary design intelligence tuned to Kerala’s climate, light and way of living.',
+  },
+  {
+    title: 'Engineering Excellence',
+    copy: 'Geotechnical investigation and structural design precede every drawing — soil analysed, bearing capacity proven, foundations sized to fact rather than assumption.',
   },
   {
     title: 'Experienced Team',
@@ -179,25 +250,41 @@ export const TESTIMONIALS = [
   },
 ]
 
-export const GALLERY_TABS = ['Villas', 'Construction Progress', 'Interiors', 'Drone Photography', 'Project Videos']
-
+/**
+ * TEMPORARY gallery.
+ *
+ * Three stock photographs stand in until F&H's own project photography is
+ * supplied; every other tile renders as a labelled placeholder so the section
+ * reads as deliberately unfinished rather than broken.
+ *
+ * To fill a placeholder: give the tile an `image` (an id from lib/images.js, or
+ * a path under /public) and delete its `placeholder: true`. Nothing else needs
+ * to change. `span` accepts 'tall' or 'wide'; omit it for a standard tile.
+ */
 export const GALLERY = [
-  { tab: 'Villas', title: 'Villa Serene — west elevation', variant: 0, span: 'tall' },
-  { tab: 'Villas', title: 'Casa Mirada — entrance court', variant: 1 },
-  { tab: 'Villas', title: 'The Waterline — infinity deck', variant: 5, span: 'wide' },
-  { tab: 'Villas', title: 'Heritage Residences — portico', variant: 1 },
-  { tab: 'Construction Progress', title: 'Skyline Enclave — slab casting', variant: 2, span: 'wide' },
-  { tab: 'Construction Progress', title: 'Villa Serene — structural frame', variant: 0 },
-  { tab: 'Construction Progress', title: 'Palm Grove — site levelling', variant: 3, span: 'tall' },
-  { tab: 'Interiors', title: 'Double-height living pavilion', variant: 4, span: 'tall' },
-  { tab: 'Interiors', title: 'Teak & stone kitchen', variant: 4 },
-  { tab: 'Interiors', title: 'Master suite, evening light', variant: 4, span: 'wide' },
-  { tab: 'Drone Photography', title: 'Skyline Enclave — masterplan', variant: 2, span: 'wide' },
-  { tab: 'Drone Photography', title: 'Palm Grove — plot layout', variant: 3 },
-  { tab: 'Drone Photography', title: 'Backwater frontage at dusk', variant: 5, span: 'tall' },
-  { tab: 'Project Videos', title: 'Villa Serene — walkthrough film', variant: 0, span: 'wide', video: true },
-  { tab: 'Project Videos', title: 'Skyline Enclave — site tour', variant: 2, video: true },
-  { tab: 'Project Videos', title: 'Handover day, Casa Mirada', variant: 4, video: true },
+  {
+    title: 'Villa Serene — west elevation',
+    caption: 'Kakkanad, Kochi',
+    image: IMAGES.villaPool,
+    variant: 0,
+    span: 'tall',
+  },
+  {
+    title: 'Living pavilion, Casa Mirada',
+    caption: 'Interior',
+    image: IMAGES.interiorDining,
+    variant: 4,
+  },
+  {
+    title: 'Skyline Enclave — slab reinforcement',
+    caption: 'Construction progress',
+    image: IMAGES.slabCasting,
+    variant: 2,
+  },
+  { title: 'Interiors', placeholder: true, variant: 4, span: 'wide' },
+  { title: 'Geotechnical investigation', placeholder: true, variant: 3 },
+  { title: 'Drone photography', placeholder: true, variant: 2 },
+  { title: 'Project walkthrough films', placeholder: true, variant: 5 },
 ]
 
 export const FAQS = [

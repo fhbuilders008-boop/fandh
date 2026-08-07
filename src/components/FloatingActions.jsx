@@ -6,15 +6,31 @@ import { PHONE_DISPLAY, TEL_LINK, waLink } from '../lib/site'
 /**
  * Persistent WhatsApp + Call actions. They appear once the visitor has moved
  * past the hero so they never compete with the logo reveal.
+ *
+ * The threshold is measured off the hero element, not a fixed 0.9 viewports:
+ * the hero is a 240–320vh scroll runway, so a viewport-based guess surfaced the
+ * buttons while the logo was still assembling — and on mobile they landed on top
+ * of the hero's stat row.
  */
 export default function FloatingActions() {
   const [visible, setVisible] = useState(false)
 
   useEffect(() => {
-    const onScroll = () => setVisible(window.scrollY > window.innerHeight * 0.9)
+    const onScroll = () => {
+      const hero = document.getElementById('hero')
+      // Reveal just after the hero's sticky pane starts leaving the viewport.
+      const threshold = hero
+        ? hero.offsetTop + hero.offsetHeight - window.innerHeight + 80
+        : window.innerHeight * 0.9
+      setVisible(window.scrollY > threshold)
+    }
     onScroll()
     window.addEventListener('scroll', onScroll, { passive: true })
-    return () => window.removeEventListener('scroll', onScroll)
+    window.addEventListener('resize', onScroll)
+    return () => {
+      window.removeEventListener('scroll', onScroll)
+      window.removeEventListener('resize', onScroll)
+    }
   }, [])
 
   return (

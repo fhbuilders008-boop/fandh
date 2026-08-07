@@ -5,6 +5,44 @@
 @layer base {
   :root {
     color-scheme: dark;
+
+    /* ── Brand gold ──────────────────────────────────────────────────────
+       The logo's brushed-foil ramp: warm highlight at the top falling to
+       antique bronze at the foot. Defined once here and consumed by the
+       wordmark, the skyline strokes, every divider and every line icon.
+       Its SVG twin lives in <GoldDefs /> as #fh-gold / #fh-gold-line, for
+       anything that needs a real paint server (stroke gradients). */
+    --gold-100: #f5d78a;
+    --gold-200: #e8c87b;
+    --gold-300: #d9ae57;
+    --gold-500: #c39a3f;
+    --gold-700: #a5761f;
+    --gold-900: #8a640f;
+
+    --gold-foil: linear-gradient(
+      174deg,
+      var(--gold-100) 0%,
+      var(--gold-200) 22%,
+      var(--gold-300) 46%,
+      var(--gold-500) 66%,
+      var(--gold-700) 84%,
+      var(--gold-900) 100%
+    );
+
+    --gold-hairline: linear-gradient(
+      90deg,
+      rgba(138, 100, 15, 0) 0%,
+      var(--gold-700) 14%,
+      var(--gold-100) 50%,
+      var(--gold-700) 86%,
+      rgba(138, 100, 15, 0) 100%
+    );
+
+    /* One easing curve for the entire site — slow, weighted, no overshoot.
+       Nothing here bounces or springs; this is a heritage brand. */
+    --ease-luxe: cubic-bezier(0.16, 1, 0.3, 1);
+    --dur-reveal: 1.05s;
+    --dur-draw: 0.9s;
   }
 
   html {
@@ -122,6 +160,235 @@
   .card-hover {
     @apply hover:-translate-y-1.5 hover:border-gold/55 hover:shadow-gold;
   }
+
+  /* ══ BRAND SURFACE ═══════════════════════════════════════════════════
+     The logo sits on maroon that is textured, never flat. A single fixed
+     grain plate over the whole page gives every gold element the sense of
+     being foiled onto a physical surface. */
+  .grain-overlay {
+    @apply pointer-events-none fixed inset-0 z-[1] noise;
+    opacity: 0.05;
+    mix-blend-mode: overlay;
+  }
+
+  /* ══ GOLD FOIL ═══════════════════════════════════════════════════════ */
+
+  /* Text foiled with the logo's gradient — never a flat gold fill. */
+  .foil-text {
+    background-image: var(--gold-foil);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    filter: drop-shadow(0 2px 1px rgba(0, 0, 0, 0.45));
+  }
+
+  /* Line icons drawn in the same foil as the skyline strokes. The trailing
+     colour is the fallback if the paint server is ever missing. */
+  .line-gold {
+    stroke: url(#fh-gold-line) #cd9f49;
+  }
+
+  /* For the ivory band, where the highlight end of the foil would vanish. */
+  .line-gold-deep {
+    stroke: url(#fh-gold-line-deep) #a5761f;
+  }
+
+  /* ══ SCROLL REVEAL ═══════════════════════════════════════════════════
+     Driven by IntersectionObserver (see lib/useInView.js), which flips
+     data-inview. Motion lives entirely in CSS so it stays on the compositor
+     and every section shares one duration and one easing curve. */
+  .fh-reveal {
+    opacity: 0;
+    transform: translate3d(var(--fh-tx, 0px), var(--fh-ty, 36px), 0);
+    transition:
+      opacity var(--fh-dur, var(--dur-reveal)) var(--ease-luxe) var(--fh-delay, 0s),
+      transform var(--fh-dur, var(--dur-reveal)) var(--ease-luxe) var(--fh-delay, 0s);
+  }
+
+  /* Either the element carries its own observer flag, or it sits inside a
+     stagger group whose flag has flipped. */
+  .fh-reveal[data-inview='true'],
+  [data-inview='true'] .fh-reveal {
+    opacity: 1;
+    transform: none;
+  }
+
+  /* The fine gold rule that echoes the logo's linework — grows out of
+     nothing to its full width as the section arrives. */
+  .fh-divider {
+    display: block;
+    height: 1px;
+    width: 0;
+    max-width: 100%;
+    background-image: var(--gold-hairline);
+    transition: width var(--fh-dur, 1.15s) var(--ease-luxe) var(--fh-delay, 0s);
+  }
+
+  .fh-divider[data-inview='true'],
+  [data-inview='true'] .fh-divider {
+    width: var(--fh-w, 200px);
+  }
+
+  /* ══ BRAND OVERTURE ══════════════════════════════════════════════════
+     The load sequence: skyline draws itself stroke by stroke, the wordmark
+     rises into it, the tagline opens out to full tracking last. */
+  .fh-lockup {
+    @apply flex flex-col items-center;
+  }
+
+  .fh-skyline path {
+    /* pathLength="1" on every path means one dash length covers any path,
+       so no JS measurement is needed to draw them. */
+    stroke-dasharray: 1;
+    stroke-dashoffset: 1;
+    animation: fh-draw var(--dur-draw) var(--ease-luxe) both;
+  }
+
+  .fh-wordmark {
+    font-family: 'Playfair Display', 'Cormorant Garamond', Georgia, serif;
+    font-weight: 700;
+    font-size: clamp(2.6rem, 8.5vw, 4.15rem);
+    line-height: 0.92;
+    letter-spacing: 0.005em;
+    animation: fh-rise 1s var(--ease-luxe) both;
+  }
+
+  /* The ampersand is the logo's calligraphic swash, not a glyph dropped
+     between two letters: a lighter italic cut, set larger and tucked into
+     the F and the H so the three read as one monogram. */
+  .fh-amp {
+    font-family: 'Cormorant Garamond', 'Playfair Display', Georgia, serif;
+    font-style: italic;
+    font-weight: 400;
+    font-size: 1.22em;
+    margin-inline: -0.07em;
+    vertical-align: -0.035em;
+  }
+
+  .fh-tagline {
+    font-size: clamp(0.5rem, 1.6vw, 0.625rem);
+    font-weight: 500;
+    text-transform: uppercase;
+    color: var(--gold-300);
+    letter-spacing: 0.46em;
+    /* letter-spacing pads the last glyph too; pull it back so the label
+       stays optically centred under the wordmark. */
+    margin-right: -0.46em;
+    animation: fh-track 1.15s var(--ease-luxe) both;
+  }
+
+  /* Staged entrance for copy that follows the overture. */
+  .fh-stage {
+    animation: fh-rise 1s var(--ease-luxe) both;
+  }
+
+  /* Same schedule, opacity only — for full-bleed layers that must not move. */
+  .fh-fade {
+    animation: fh-fade-in 1.4s var(--ease-luxe) both;
+  }
+
+  /* ── Hero brand assembly ──────────────────────────────────────────────
+     The real logo, sliced into shards that converge on scroll. The stage
+     reserves the mark's aspect box so nothing reflows as the shards move;
+     each shard is a full-canvas PNG absolutely stacked, so together they
+     are the untouched artwork. */
+  .fh-assemble {
+    @apply flex flex-col items-center;
+  }
+
+  .fh-assemble-stage {
+    position: relative;
+    width: clamp(190px, 34vw, 300px);
+    /* 730 × 822 artwork → keep its aspect exactly. */
+    aspect-ratio: 730 / 822;
+  }
+
+  .fh-assemble-mark {
+    position: absolute;
+    inset: 0;
+  }
+
+  .fh-shard {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    will-change: transform, opacity, filter;
+    user-select: none;
+    -webkit-user-drag: none;
+  }
+
+  /* Warm foil bloom that breathes up behind the composed mark. */
+  .fh-assemble-bloom {
+    position: absolute;
+    left: 50%;
+    top: 44%;
+    width: 150%;
+    aspect-ratio: 1;
+    transform: translate(-50%, -50%);
+    background: radial-gradient(
+      circle,
+      rgba(217, 174, 87, 0.28) 0%,
+      rgba(205, 159, 73, 0.12) 34%,
+      rgba(205, 159, 73, 0) 68%
+    );
+    filter: blur(12px);
+    pointer-events: none;
+    will-change: transform, opacity;
+  }
+
+  .fh-assemble-tagline {
+    margin-top: 0.5rem;
+    font-size: clamp(0.5rem, 1.6vw, 0.625rem);
+    font-weight: 500;
+    text-transform: uppercase;
+    color: var(--gold-300);
+    letter-spacing: 0.46em;
+    /* letter-spacing pads the last glyph too — pull it back to stay centred. */
+    margin-right: -0.46em;
+    will-change: opacity, letter-spacing;
+  }
+}
+
+/* ══ KEYFRAMES ═════════════════════════════════════════════════════════ */
+
+@keyframes fh-draw {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+@keyframes fh-fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes fh-rise {
+  from {
+    opacity: 0;
+    transform: translate3d(0, 26px, 0);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* Engraved-label effect: the tracking opens out from compressed to full. */
+@keyframes fh-track {
+  from {
+    opacity: 0;
+    letter-spacing: 0.16em;
+  }
+  to {
+    opacity: 1;
+    letter-spacing: 0.46em;
+  }
 }
 
 @layer utilities {
@@ -139,14 +406,18 @@
   }
 }
 
-/* Respect reduced-motion: kill all decorative motion. */
+/* Respect reduced-motion: kill all decorative motion. Delays are collapsed
+   too — the overture's staged delays would otherwise hold the brand lockup
+   and hero copy invisible for seconds before snapping in. */
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,
   *::after {
     animation-duration: 0.001ms !important;
+    animation-delay: 0.001ms !important;
     animation-iteration-count: 1 !important;
     transition-duration: 0.001ms !important;
+    transition-delay: 0.001ms !important;
     scroll-behavior: auto !important;
   }
 }

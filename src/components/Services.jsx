@@ -17,7 +17,7 @@ export default function Services() {
           intro="From the first sketch to the day you turn the key — one accountable team, no gaps between trades, no one to point fingers at but us."
         />
 
-        <StaggerGroup className="mt-16 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
+        <StaggerGroup className="mt-16 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
           {SERVICES.map((service) => {
             const Icon = service.icon
             return (
@@ -25,8 +25,8 @@ export default function Services() {
                 <article className="card card-hover group h-full">
                   <span className="pointer-events-none absolute -right-10 -top-10 h-28 w-28 rounded-full bg-gold/10 opacity-0 blur-2xl transition-opacity duration-500 group-hover:opacity-100" />
 
-                  <span className="inline-flex h-12 w-12 items-center justify-center rounded-xl border border-gold/30 bg-gold/10 text-gold transition-all duration-500 group-hover:border-gold/70 group-hover:bg-gold/20">
-                    <Icon className="h-6 w-6" />
+                  <span className="inline-flex h-12 w-12 items-center justify-center rounded-full border border-gold/30 bg-gold/[0.07] transition-all duration-700 group-hover:border-gold/70 group-hover:bg-gold/15">
+                    <Icon className="line-gold h-6 w-6" strokeWidth={1.25} />
                   </span>
 
                   <h3 className="mt-6 font-display text-xl text-ivory">{service.title}</h3>

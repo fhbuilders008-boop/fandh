@@ -13,7 +13,7 @@ export default function WhyChooseUs() {
       <div className="container-x">
         <SectionHeading
           eyebrow="Why Choose F&H Builders?"
-          title="Nine Reasons Families"
+          title="Ten Reasons Families"
           accent="Keep Choosing Us."
           intro="Most of our clients come from a referral by someone who has already lived in one of our homes. These are the reasons they give."
         />
@@ -22,8 +22,8 @@ export default function WhyChooseUs() {
           {WHY_US.map((item) => (
             <StaggerItem key={item.title}>
               <div className="group flex gap-4 rounded-xl p-4 transition-colors duration-500 hover:bg-white/[0.035]">
-                <span className="mt-0.5 inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-full border border-gold/40 bg-gold/10 text-gold transition-all duration-500 group-hover:border-gold group-hover:bg-gold group-hover:text-maroonDark">
-                  <IconCheck className="h-4 w-4" strokeWidth={2} />
+                <span className="mt-0.5 inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-full border border-gold/40 bg-gold/[0.07] transition-all duration-700 group-hover:border-gold group-hover:bg-gold/15">
+                  <IconCheck className="line-gold h-4 w-4" strokeWidth={1.5} />
                 </span>
                 <div>
                   <h3 className="font-display text-lg text-ivory">{item.title}</h3>

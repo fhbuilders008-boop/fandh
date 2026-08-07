@@ -1,18 +1,19 @@
 import { useMemo, useState } from 'react'
 import { AnimatePresence, motion } from 'framer-motion'
 import SectionHeading from './SectionHeading'
-import ArchVisual from './visuals/ArchVisual'
+import Photo from './Photo'
 import { PROJECTS } from '../data/content'
 import { waLink } from '../lib/site'
 import { IconArrow, IconPin } from './Icons'
 
-const FILTERS = ['All', 'Ongoing', 'Completed']
+// Derived from the data so a new project category never needs a second edit here.
+const FILTERS = ['All', ...new Set(PROJECTS.map((p) => p.category))]
 
 export default function Projects() {
   const [filter, setFilter] = useState('All')
 
   const visible = useMemo(
-    () => (filter === 'All' ? PROJECTS : PROJECTS.filter((p) => p.status === filter)),
+    () => (filter === 'All' ? PROJECTS : PROJECTS.filter((p) => p.category === filter)),
     [filter]
   )
 
@@ -30,13 +31,14 @@ export default function Projects() {
 
         {/* Filter */}
         <div className="mt-12 flex justify-center">
-          <div className="glass inline-flex rounded-full p-1.5">
+          {/* Wraps between pills on narrow screens rather than inside a label. */}
+          <div className="glass inline-flex max-w-full flex-wrap justify-center rounded-3xl p-1.5 sm:rounded-full">
             {FILTERS.map((f) => (
               <button
                 key={f}
                 type="button"
                 onClick={() => setFilter(f)}
-                className={`relative rounded-full px-5 py-2.5 text-[11px] font-semibold uppercase tracking-[0.14em] transition-colors sm:px-7 ${
+                className={`relative whitespace-nowrap rounded-full px-4 py-2.5 text-[11px] font-semibold uppercase tracking-[0.14em] transition-colors sm:px-7 ${
                   filter === f ? 'text-maroonDark' : 'text-ivory/65 hover:text-gold'
                 }`}
                 aria-pressed={filter === f}
@@ -61,18 +63,23 @@ export default function Projects() {
               <motion.article
                 key={project.name}
                 layout
-                initial={{ opacity: 0, y: 32, scale: 0.97 }}
-                animate={{ opacity: 1, y: 0, scale: 1 }}
-                exit={{ opacity: 0, y: -18, scale: 0.97 }}
-                transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
-                className="group relative overflow-hidden rounded-2xl border border-gold/15 bg-maroonDark/60 transition-all duration-500 hover:-translate-y-1.5 hover:border-gold/55 hover:shadow-gold"
+                /* Same slow ease-out as the rest of the site — a fade and a
+                   rise, no scale pop. */
+                initial={{ opacity: 0, y: 30 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -16 }}
+                transition={{ duration: 0.9, ease: [0.16, 1, 0.3, 1] }}
+                className="group relative overflow-hidden rounded-2xl border border-gold/15 bg-maroonDark/60 transition-all duration-700 hover:-translate-y-1.5 hover:border-gold/55 hover:shadow-gold"
               >
                 <div className="relative h-56 overflow-hidden">
-                  <ArchVisual
-                    variant={project.variant}
-                    className="h-full w-full transition-transform duration-[900ms] ease-out group-hover:scale-[1.08]"
+                  <Photo
+                    id={project.image}
+                    alt={`${project.name}, ${project.location}`}
+                    className="h-full w-full"
+                    imgClassName="transition-transform duration-[900ms] ease-out group-hover:scale-[1.08]"
+                    fallbackVariant={project.variant}
                   />
-                  <div className="absolute inset-0 bg-gradient-to-t from-maroonDark via-maroonDark/25 to-transparent" />
+                  <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-maroonDark via-maroonDark/25 to-transparent" />
 
                   <span
                     className={`absolute left-4 top-4 rounded-full px-3 py-1.5 text-[10px] font-semibold uppercase tracking-[0.14em] backdrop-blur-md ${

@@ -1,4 +1,5 @@
 import Reveal from './Reveal'
+import GoldDivider from './GoldDivider'
 
 export default function SectionHeading({ eyebrow, title, accent, intro, align = 'center', className = '' }) {
   const centered = align === 'center'
@@ -15,15 +16,18 @@ export default function SectionHeading({ eyebrow, title, accent, intro, align = 
         </Reveal>
       )}
 
-      <Reveal delay={0.06}>
+      <Reveal delay={0.08}>
         <h2 className="heading-lg mt-5 text-balance text-ivory">
           {title} {accent && <span className="gold-text italic">{accent}</span>}
         </h2>
       </Reveal>
 
+      {/* The gold rule closes the heading before the copy opens. */}
+      <GoldDivider delay={0.24} className={`mt-7 ${centered ? 'mx-auto' : ''}`} />
+
       {intro && (
-        <Reveal delay={0.12}>
-          <p className="body-muted mt-5">{intro}</p>
+        <Reveal delay={0.3}>
+          <p className="body-muted mt-7">{intro}</p>
         </Reveal>
       )}
     </div>

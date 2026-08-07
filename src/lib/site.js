@@ -5,10 +5,13 @@ export const PHONE_DISPLAY = '+91 99615 33355'
 export const PHONE_TEL = '+919961533355'
 export const WHATSAPP_NUMBER = '919961533355'
 export const EMAIL = 'info@fhbuilders.in'
-export const ADDRESS = 'F&H Builders & Developers, Kerala, India'
+export const ADDRESS =
+  'Nandanam Square, Pukkattupady Bypass Road, Edathala PO, Pukkattupady, Aluva, Kerala 683561'
 
 export const MAP_EMBED_SRC =
-  'https://www.google.com/maps?q=Kerala,India&output=embed'
+  'https://www.google.com/maps?q=' +
+  encodeURIComponent('Nandanam Square, Pukkattupady Bypass Road, Edathala, Aluva, Kerala 683561') +
+  '&output=embed'
 
 export const TAGLINE = 'Every wall holds a story'
 
