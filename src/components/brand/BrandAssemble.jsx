@@ -15,12 +15,19 @@ gsap.registerPlugin(ScrollTrigger)
  * artwork, never a redraw.
  *
  * On scroll, the shards begin scattered (offset, rotated, blurred, dim) and
- * converge into place as the section scrubs through. Outer shards travel
- * further and settle first-to-last from the centre out, so the logo reads as
- * assembling itself from its own fragments. A soft gold bloom breathes up
- * behind it as the last shard locks, then the descriptor tracks in.
+ * converge into place. Outer shards travel further and settle first-to-last
+ * from the centre out, so the logo reads as assembling itself from its own
+ * fragments. A soft gold bloom breathes up behind it as the last shard
+ * locks, then the descriptor tracks in.
  *
- * Reduced motion / small screens: the composed logo is simply shown.
+ * Tall desktop viewports pin the hero and scrub the convergence against
+ * scroll. Shorter/narrower viewports skip the pin — the hero's natural
+ * content (~1000px) already exceeds a typical phone viewport, so pinning it
+ * would freeze the scroll with the CTA and stats cropped below the fold.
+ * Instead the same choreography plays once, triggered as the hero enters
+ * view, no pin and no added scroll distance.
+ *
+ * Reduced motion: the composed logo is simply shown.
  */
 
 // Per-shard scatter origin. Index order matches shard-0…6 (left → right).
@@ -53,20 +60,22 @@ export default function BrandAssemble({ className = '' }) {
 
     mm.add(
       {
-        // The pin holds the whole hero fixed for the scrub's scroll distance
-        // while the flex-centred copy below it can already be taller than a
-        // short viewport — on phones (and any landscape phone) that pins the
-        // headline, body copy and CTA entirely off-screen until the visitor
-        // scrolls past the pin. Reserve the cinematic version for viewports
-        // tall/wide enough to fit it without hiding the CTA.
-        motion: '(min-width: 1024px) and (min-height: 700px) and (prefers-reduced-motion: no-preference)',
-        still:
-          '(max-width: 1023px), (max-height: 699px), (prefers-reduced-motion: reduce)',
+        // Pin is only safe where the hero's content actually fits the
+        // viewport — otherwise the pin freezes scroll with the CTA/stats
+        // cropped below the fold (see the component note above).
+        tallViewport: '(min-width: 1024px) and (min-height: 700px)',
+        motionOk: '(prefers-reduced-motion: no-preference)',
+        // gsap.matchMedia only invokes the callback when at least one query
+        // in the group matches — `tallViewport` and `motionOk` aren't
+        // complements of each other, so a compact viewport + reduced-motion
+        // would leave both false and the callback would never fire. This
+        // query is the exact complement of `motionOk`, guaranteeing a match.
+        reduced: '(prefers-reduced-motion: reduce)',
       },
       (ctx) => {
-        const { motion } = ctx.conditions
+        const { tallViewport, motionOk } = ctx.conditions
 
-        if (!motion) {
+        if (!motionOk) {
           gsap.set(shards, { x: 0, y: 0, rotate: 0, scale: 1, opacity: 1, filter: 'blur(0px)' })
           gsap.set([bloomRef.current, taglineRef.current], { opacity: 1 })
           return
@@ -95,21 +104,28 @@ export default function BrandAssemble({ className = '' }) {
         // outward: centre first fades in, flanks snap home last.
         const order = [3, 2, 4, 1, 5, 0, 6]
 
-        // Anchor to page scroll from the very top: the shards paint scattered
-        // on load (their set state above) and lock as the visitor scrolls the
-        // first ~65% of a viewport. Tied to the hero section so it recomputes
-        // correctly on resize.
         const hero = root.closest('#hero') || root
         const tl = gsap.timeline({
-          scrollTrigger: {
-            trigger: hero,
-            start: 'top top',
-            end: '+=65%',
-            scrub: 0.7,
-            pin: true,
-            anticipatePin: 1,
-            invalidateOnRefresh: true,
-          },
+          scrollTrigger: tallViewport
+            ? {
+                // Anchor to page scroll from the very top: the shards paint
+                // scattered on load and lock as the visitor scrolls the first
+                // ~65% of a viewport.
+                trigger: hero,
+                start: 'top top',
+                end: '+=65%',
+                scrub: 0.7,
+                pin: true,
+                anticipatePin: 1,
+                invalidateOnRefresh: true,
+              }
+            : {
+                // No pin, no scrub: the hero is already in view on load (it's
+                // the first section), so this just plays the convergence once.
+                trigger: hero,
+                start: 'top 85%',
+                toggleActions: 'play none none none',
+              },
         })
 
         order.forEach((idx, step) => {

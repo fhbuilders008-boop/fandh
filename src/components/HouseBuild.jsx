@@ -1,4 +1,4 @@
-import { useLayoutEffect, useRef } from 'react'
+import { useLayoutEffect, useRef, useState } from 'react'
 import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import Reveal from './Reveal'
@@ -10,7 +10,7 @@ const PHASES = [
   {
     tag: '01',
     title: 'Soil Investigation & Foundation',
-    copy: 'Every plot is soil-tested before a single footing is poured, so the foundation is engineered for what is actually underground.',
+    copy: 'Every plot has its soil tested before a single footing is poured, so the foundation is engineered for what is actually underground.',
   },
   {
     tag: '02',
@@ -34,58 +34,82 @@ const PHASES = [
   },
 ]
 
+const VIDEO_SRC = '/videos/architecture-scrub.mp4'
+
 /**
- * HOUSE BUILD — a villa drafted, then rendered, as the section scrubs.
+ * HOUSE BUILD — a villa rising, scrubbed frame-by-frame against scroll.
  *
- * The old version drew isolated vertical strokes, so mid-scroll it read as
- * floating sticks. This one is composed as five *complete* architectural
- * units — a surveyed plot, a full structural bay grid, a solid massing with
- * its roof, punched openings, then grounds — so every partial state is a
- * coherent drawing, never a skeleton.
+ * The video's `currentTime` is tweened from 0 to its duration inside a
+ * pinned ScrollTrigger, exactly as the previous SVG line-draw was scrubbed.
+ * Captions and dots are driven by the same timeline (not a separate
+ * currentTime listener), so they stay perfectly in lockstep with scroll
+ * position and get cleaned up automatically when the matchMedia context
+ * reverts.
  *
- * Each phase is a group of `.build-*` elements. Line work reveals by
- * stroke-dash (drawing itself), while solid masses and glass fade+rise in.
- * When the last phase lands, a warm render wash sweeps across and the whole
- * elevation settles as a finished gold rendering.
- *
- * Desktop pins and scrubs one phase per beat; small screens / reduced motion
- * show the finished villa with a single fade.
+ * Desktop pins the section and scrubs the video one phase per fifth of the
+ * timeline against an extended scroll runway. Unlike the hero, this section's
+ * stacked content comfortably fits a phone viewport (measured ~660-680px
+ * against 667px+ real devices), so mobile keeps the pin too — just a shorter
+ * runway and a lighter scrub, since a long hijacked scroll feels worse on a
+ * small screen than on desktop. Reduced motion shows the finished frame with
+ * a single fade.
  */
 export default function HouseBuild() {
   const sectionRef = useRef(null)
-  const svgRef = useRef(null)
+  const panelRef = useRef(null)
+  const videoRef = useRef(null)
   const badgeRef = useRef(null)
   const captionRefs = useRef([])
   const dotRefs = useRef([])
 
+  const [metaLoaded, setMetaLoaded] = useState(false)
+
+  // Wait for duration to be known before any ScrollTrigger/pin math runs.
   useLayoutEffect(() => {
-    const svg = svgRef.current
-    const drawEls = svg.querySelectorAll('.build-draw')
+    const video = videoRef.current
+    if (!video) return
+
+    if (video.readyState >= 1) {
+      setMetaLoaded(true)
+      return
+    }
+
+    const onLoadedMetadata = () => setMetaLoaded(true)
+    video.addEventListener('loadedmetadata', onLoadedMetadata)
+    return () => video.removeEventListener('loadedmetadata', onLoadedMetadata)
+  }, [])
+
+  useLayoutEffect(() => {
+    if (!metaLoaded) return
+
+    const video = videoRef.current
+    const duration = video.duration
 
     const mm = gsap.matchMedia()
 
     mm.add(
       {
-        cinematic: '(min-width: 1024px) and (prefers-reduced-motion: no-preference)',
-        reduced: '(max-width: 1023px), (prefers-reduced-motion: reduce)',
+        desktop: '(min-width: 1024px)',
+        motionOk: '(prefers-reduced-motion: no-preference)',
+        // gsap.matchMedia only invokes the callback when at least one query
+        // in the group matches — `desktop` and `motionOk` aren't
+        // complements of each other, so mobile + reduced-motion would
+        // leave both false and the callback would never fire. This query
+        // is the exact complement of `motionOk`, guaranteeing one match.
+        reduced: '(prefers-reduced-motion: reduce)',
       },
       (ctx) => {
-        const { cinematic } = ctx.conditions
+        const { desktop, motionOk } = ctx.conditions
 
-        // Prime every drawn path to its hidden (fully-dashed) state.
-        drawEls.forEach((p) => {
-          const len = p.getTotalLength()
-          gsap.set(p, { strokeDasharray: len, strokeDashoffset: cinematic ? len : 0 })
-        })
-
-        if (!cinematic) {
-          gsap.set('.build-solid, .build-glass', { opacity: 1, y: 0 })
-          gsap.set('.build-render', { opacity: 1 })
+        if (!motionOk) {
+          video.currentTime = duration
+          gsap.set(captionRefs.current, { opacity: 0, y: 0 })
+          gsap.set(captionRefs.current[captionRefs.current.length - 1], { opacity: 1 })
+          gsap.set(dotRefs.current, { opacity: 0.35 })
+          gsap.set(dotRefs.current[dotRefs.current.length - 1], { opacity: 1 })
           gsap.set(badgeRef.current, { opacity: 1, y: 0 })
-          gsap.set(captionRefs.current[captionRefs.current.length - 1], { opacity: 1, y: 0 })
-          gsap.set(dotRefs.current, { opacity: 1 })
 
-          gsap.from(svg, {
+          gsap.from(panelRef.current, {
             opacity: 0,
             y: 24,
             duration: 0.9,
@@ -96,59 +120,49 @@ export default function HouseBuild() {
         }
 
         gsap.set(captionRefs.current, { opacity: 0, y: 16 })
+        gsap.set(captionRefs.current[0], { opacity: 1, y: 0 })
         gsap.set(dotRefs.current, { opacity: 0.35 })
-        gsap.set('.build-solid', { opacity: 0, y: 14 })
-        gsap.set('.build-glass', { opacity: 0, y: 8 })
-        gsap.set('.build-render', { opacity: 0 })
+        gsap.set(dotRefs.current[0], { opacity: 1 })
         gsap.set(badgeRef.current, { opacity: 0, y: 16 })
 
+        // One timeline unit per phase, so labels land on whole numbers and
+        // the crossfade gap below is easy to reason about proportionally.
         const tl = gsap.timeline({
           scrollTrigger: {
             trigger: sectionRef.current,
             start: 'top top',
-            end: '+=280%',
-            scrub: 0.6,
+            end: desktop ? '+=280%' : '+=160%',
+            scrub: desktop ? 0.5 : 0.35,
             pin: true,
             anticipatePin: 1,
             invalidateOnRefresh: true,
           },
         })
 
-        PHASES.forEach((_, i) => {
-          const draws = svg.querySelectorAll(`.phase-${i} .build-draw`)
-          const solids = svg.querySelectorAll(`.phase-${i} .build-solid`)
-          const glass = svg.querySelectorAll(`.phase-${i} .build-glass`)
+        tl.to(video, { currentTime: duration, ease: 'none', duration: PHASES.length }, 0)
 
-          tl.addLabel(`p${i}`)
-          if (draws.length) {
-            tl.to(draws, { strokeDashoffset: 0, duration: 1, ease: 'none', stagger: 0.05 }, `p${i}`)
-          }
-          if (solids.length) {
-            tl.to(solids, { opacity: 1, y: 0, duration: 0.6, ease: 'power2.out', stagger: 0.06 }, `p${i}+=0.15`)
-          }
-          if (glass.length) {
-            tl.to(glass, { opacity: 1, y: 0, duration: 0.5, ease: 'power2.out', stagger: 0.05 }, `p${i}+=0.35`)
-          }
+        PHASES.forEach((_, i) => {
+          tl.addLabel(`p${i}`, i)
+
           tl.to(dotRefs.current[i], { opacity: 1, duration: 0.25 }, `p${i}`)
 
           if (i > 0) {
-            tl.to(captionRefs.current[i - 1], { opacity: 0, y: -14, duration: 0.2 }, `p${i}`)
             tl.to(dotRefs.current[i - 1], { opacity: 0.35, duration: 0.25 }, `p${i}`)
+            // Fade the outgoing caption fully out, then bring the next one in
+            // after a beat — never crossfading, always a clean gap.
+            tl.to(captionRefs.current[i - 1], { opacity: 0, y: -14, duration: 0.2 }, `p${i}`)
             tl.to(captionRefs.current[i], { opacity: 1, y: 0, duration: 0.2 }, `p${i}+=0.2`)
           } else {
             tl.to(captionRefs.current[i], { opacity: 1, y: 0, duration: 0.25 }, `p${i}`)
           }
         })
 
-        // Final beat: the drawing becomes a rendering.
-        tl.to('.build-render', { opacity: 1, duration: 1, ease: 'power2.out' }, `p${PHASES.length - 1}+=0.25`)
-        tl.to(badgeRef.current, { opacity: 1, y: 0, duration: 0.6 }, `p${PHASES.length - 1}+=0.5`)
-        tl.to({}, { duration: 0.6 })
+        tl.to(badgeRef.current, { opacity: 1, y: 0, duration: 0.4 }, `p${PHASES.length - 1}+=0.4`)
       }
     )
 
     return () => mm.revert()
-  }, [])
+  }, [metaLoaded])
 
   return (
     <section
@@ -177,8 +191,11 @@ export default function HouseBuild() {
 
           <GoldDivider delay={0.2} width={168} className="mt-7" />
 
-          {/* Mobile / reduced-motion summary — the scrubbed captions below are desktop-only */}
-          <Reveal delay={0.24} className="lg:hidden">
+          {/* Reduced-motion summary — the scrubbed captions below only ever
+              show one phase at a time, so reduced-motion visitors (who see a
+              single static frame, not the sequence) get the whole journey in
+              one paragraph instead. */}
+          <Reveal delay={0.24} className="hidden motion-reduce:block">
             <p className="body-muted mt-5">
               From soil investigation to handover: foundation, structural frame, walls and
               roofing, finishing, and landscaping &mdash; delivered on a schedule you can plan
@@ -186,7 +203,7 @@ export default function HouseBuild() {
             </p>
           </Reveal>
 
-          <div className="relative mt-8 hidden min-h-[190px] lg:block">
+          <div className="relative mt-8 min-h-[190px]">
             {PHASES.map((phase, i) => (
               <div
                 key={phase.tag}
@@ -202,7 +219,7 @@ export default function HouseBuild() {
             ))}
           </div>
 
-          <div className="mt-6 hidden items-center gap-2 lg:flex">
+          <div className="mt-6 flex items-center gap-2">
             {PHASES.map((phase, i) => (
               <span
                 key={phase.tag}
@@ -213,239 +230,30 @@ export default function HouseBuild() {
           </div>
         </div>
 
-        {/* Drawing column */}
+        {/* Video column */}
         <div className="relative mx-auto w-full max-w-xl">
           <Reveal direction="left" duration={0.85} className="relative">
-            <div className="relative overflow-hidden rounded-3xl border border-gold/20 bg-maroonDark/40 shadow-deep">
-              <svg
-                ref={svgRef}
-                viewBox="0 0 900 520"
-                className="h-auto w-full"
+            <div
+              ref={panelRef}
+              className="relative aspect-[900/520] w-full overflow-hidden rounded-3xl border border-gold/20 bg-maroonDark/40 shadow-deep"
+            >
+              {/* Skeleton — visible until the video reports its duration, so
+                  ScrollTrigger never has to pin/scrub against an unknown length. */}
+              <div
                 aria-hidden="true"
-                focusable="false"
-              >
-                <defs>
-                  <linearGradient
-                    id="hb-line"
-                    gradientUnits="userSpaceOnUse"
-                    x1="0"
-                    y1="70"
-                    x2="0"
-                    y2="470"
-                  >
-                    <stop offset="0%" stopColor="#f5d78a" />
-                    <stop offset="46%" stopColor="#d9ae57" />
-                    <stop offset="100%" stopColor="#8a640f" />
-                  </linearGradient>
-                  <linearGradient id="hb-wall" x1="0" y1="0" x2="0" y2="1">
-                    <stop offset="0%" stopColor="#3a1416" />
-                    <stop offset="100%" stopColor="#25090b" />
-                  </linearGradient>
-                  <linearGradient id="hb-roof" x1="0" y1="0" x2="0" y2="1">
-                    <stop offset="0%" stopColor="#d9ae57" stopOpacity="0.32" />
-                    <stop offset="100%" stopColor="#8a640f" stopOpacity="0.18" />
-                  </linearGradient>
-                  <linearGradient id="hb-glass" x1="0" y1="0" x2="1" y2="1">
-                    <stop offset="0%" stopColor="#f5d78a" stopOpacity="0.5" />
-                    <stop offset="100%" stopColor="#d9ae57" stopOpacity="0.12" />
-                  </linearGradient>
-                  <radialGradient id="hb-render" cx="50%" cy="34%" r="78%">
-                    <stop offset="0%" stopColor="#CD9F49" stopOpacity="0.26" />
-                    <stop offset="60%" stopColor="#CD9F49" stopOpacity="0.08" />
-                    <stop offset="100%" stopColor="#CD9F49" stopOpacity="0" />
-                  </radialGradient>
-                </defs>
-
-                {/* Phase 0 - Surveyed plot & foundation */}
-                <g className="phase-0">
-                  <g
-                    fill="none"
-                    stroke="url(#hb-line)"
-                    strokeWidth="2.6"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    opacity="0.85"
-                  >
-                    <path className="build-draw" d="M40 430 H860" />
-                  </g>
-                  <path
-                    className="build-draw"
-                    d="M110 430 l-10 16 M210 430 l-10 16 M310 430 l-10 16 M410 430 l-10 16 M510 430 l-10 16 M610 430 l-10 16 M710 430 l-10 16 M810 430 l-10 16"
-                    fill="none"
-                    stroke="url(#hb-line)"
-                    strokeWidth="1.6"
-                    strokeLinecap="round"
-                    opacity="0.55"
-                  />
-                  <path
-                    className="build-draw"
-                    d="M180 430 V400 H720 V430"
-                    fill="none"
-                    stroke="url(#hb-line)"
-                    strokeWidth="2.2"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  />
-                  <path
-                    className="build-draw"
-                    d="M180 400 H720"
-                    fill="none"
-                    stroke="url(#hb-line)"
-                    strokeWidth="1.4"
-                    opacity="0.5"
-                  />
-                </g>
-
-                {/* Phase 1 - Structural frame */}
-                <g className="phase-1">
-                  <path
-                    className="build-draw"
-                    d="M180 400 V150 M300 400 V150 M450 400 V130 M600 400 V150 M720 400 V150"
-                    fill="none"
-                    stroke="url(#hb-line)"
-                    strokeWidth="2.4"
-                    strokeLinecap="round"
-                  />
-                  <path
-                    className="build-draw"
-                    d="M180 270 H720 M180 150 H720"
-                    fill="none"
-                    stroke="url(#hb-line)"
-                    strokeWidth="2"
-                    strokeLinecap="round"
-                    opacity="0.9"
-                  />
-                </g>
-
-                {/* Phase 2 - Walls & roofing */}
-                <g className="phase-2">
-                  <rect className="build-solid" x="180" y="150" width="540" height="250" fill="url(#hb-wall)" rx="2" />
-                  <path className="build-solid" d="M156 152 L450 60 L744 152 Z" fill="url(#hb-roof)" />
-                  <path
-                    className="build-draw"
-                    d="M156 152 L450 60 L744 152"
-                    fill="none"
-                    stroke="url(#hb-line)"
-                    strokeWidth="2.6"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  />
-                  <path
-                    className="build-draw"
-                    d="M180 400 V152 H720 V400"
-                    fill="none"
-                    stroke="url(#hb-line)"
-                    strokeWidth="2.4"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  />
-                  <path
-                    className="build-draw"
-                    d="M405 96 L450 82 L495 96"
-                    fill="none"
-                    stroke="url(#hb-line)"
-                    strokeWidth="2"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    opacity="0.8"
-                  />
-                </g>
-
-                {/* Phase 3 - Windows, doors & finishing */}
-                <g className="phase-3">
-                  <rect className="build-glass" x="220" y="210" width="96" height="82" fill="url(#hb-glass)" />
-                  <path
-                    className="build-draw"
-                    d="M220 210 H316 V292 H220 Z M268 210 V292 M220 251 H316"
-                    fill="none"
-                    stroke="url(#hb-line)"
-                    strokeWidth="2"
-                    strokeLinejoin="round"
-                  />
-                  <rect className="build-glass" x="584" y="210" width="96" height="82" fill="url(#hb-glass)" />
-                  <path
-                    className="build-draw"
-                    d="M584 210 H680 V292 H584 Z M632 210 V292 M584 251 H680"
-                    fill="none"
-                    stroke="url(#hb-line)"
-                    strokeWidth="2"
-                    strokeLinejoin="round"
-                  />
-                  <rect className="build-glass" x="418" y="250" width="64" height="150" fill="url(#hb-glass)" />
-                  <path
-                    className="build-draw"
-                    d="M418 400 V250 H482 V400 M450 250 V400"
-                    fill="none"
-                    stroke="url(#hb-line)"
-                    strokeWidth="2.2"
-                    strokeLinejoin="round"
-                    strokeLinecap="round"
-                  />
-                </g>
-
-                {/* Phase 4 - Landscaping & handover */}
-                <g className="phase-4">
-                  <path
-                    className="build-draw"
-                    d="M60 452 H840"
-                    fill="none"
-                    stroke="url(#hb-line)"
-                    strokeWidth="2.4"
-                    strokeLinecap="round"
-                  />
-                  <path
-                    className="build-draw"
-                    d="M420 400 L392 452 M482 400 L510 452"
-                    fill="none"
-                    stroke="url(#hb-line)"
-                    strokeWidth="1.8"
-                    strokeLinecap="round"
-                    opacity="0.7"
-                  />
-                  {/* slim trees flanking the villa — trunk + rounded canopy */}
-                  <path
-                    className="build-draw"
-                    d="M120 400 V360 M120 372 q-20 -6 -24 -26 q22 -10 24 12 q4 -24 26 -12 q-2 22 -26 26"
-                    fill="none"
-                    stroke="url(#hb-line)"
-                    strokeWidth="1.8"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    opacity="0.75"
-                  />
-                  <path
-                    className="build-draw"
-                    d="M780 400 V360 M780 372 q-20 -6 -24 -26 q22 -10 24 12 q4 -24 26 -12 q-2 22 -26 26"
-                    fill="none"
-                    stroke="url(#hb-line)"
-                    strokeWidth="1.8"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    opacity="0.75"
-                  />
-                  {/* low shrub rows along the ground */}
-                  <path
-                    className="build-draw"
-                    d="M150 452 q14 -16 28 0 q14 -16 28 0 q14 -16 28 0 M666 452 q14 -16 28 0 q14 -16 28 0 q14 -16 28 0"
-                    fill="none"
-                    stroke="url(#hb-line)"
-                    strokeWidth="1.5"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    opacity="0.5"
-                  />
-                </g>
-
-                <rect
-                  className="build-render"
-                  x="120"
-                  y="50"
-                  width="660"
-                  height="410"
-                  rx="6"
-                  fill="url(#hb-render)"
-                />
-              </svg>
+                className={`absolute inset-0 animate-pulse bg-gradient-to-br from-maroonDark/70 via-gold/[0.06] to-maroonDark/80 transition-opacity duration-500 ${
+                  metaLoaded ? 'pointer-events-none opacity-0' : 'opacity-100'
+                }`}
+              />
+              <video
+                ref={videoRef}
+                className="absolute inset-0 h-full w-full object-cover"
+                src={VIDEO_SRC}
+                muted
+                playsInline
+                preload="auto"
+                aria-hidden="true"
+              />
             </div>
           </Reveal>
 

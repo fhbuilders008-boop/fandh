@@ -41,7 +41,7 @@ export default function Footer() {
           <LogoLockup />
           <p className="mt-5 max-w-xs text-[13.5px] leading-relaxed text-ivory/55">
             Luxury villas, premium villa plots, residential construction, geotechnical investigation
-            and complete construction consultancy across Kerala.
+            and complete construction consultancy across Ernakulam.
           </p>
           <p className="mt-5 font-display text-base italic text-gold/85">“{TAGLINE}”</p>
         </div>

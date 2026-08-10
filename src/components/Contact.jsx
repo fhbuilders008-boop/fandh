@@ -161,7 +161,7 @@ export default function Contact() {
             <form onSubmit={onSubmit} className="glass h-full rounded-2xl p-7 sm:p-9">
               <h3 className="font-display text-2xl text-ivory">Book a site visit</h3>
               <p className="mt-2 text-[14px] text-ivory/60">
-                Fill this in and it opens a ready-to-send WhatsApp message — no forms lost in an inbox.
+                Fill this in and it opens a WhatsApp message ready to send — no forms lost in an inbox.
               </p>
 
               <div className="mt-7 grid gap-4 sm:grid-cols-2">

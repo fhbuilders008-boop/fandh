@@ -21,9 +21,9 @@ import { IMAGES } from '../lib/images'
  */
 export const COMPANY = {
   intro:
-    'F & H Builders & Developers is a premium real estate and construction company committed to creating exceptional living spaces across Kerala. We specialise in luxury villas, premium villa plots, residential construction, geotechnical investigation and complete construction consultancy.',
+    'F & H Builders & Developers is a premium real estate and construction company committed to creating exceptional living spaces across Ernakulam. We specialise in luxury villas, premium villa plots, residential construction, geotechnical investigation and complete construction consultancy.',
   approach:
-    'Every project is thoughtfully designed with modern architecture, expert structural engineering, comprehensive geotechnical investigation, superior craftsmanship and premium quality materials — ensuring safety, durability, elegance and long-term value. Our geotechnical investigations provide accurate soil analysis and foundation recommendations, enabling safe, stable and cost-effective construction.',
+    'Every project is thoughtfully designed with modern architecture, expert structural engineering, comprehensive geotechnical investigation, superior craftsmanship and premium quality materials — ensuring safety, durability, elegance and lasting value. Our geotechnical investigations provide accurate soil analysis and foundation recommendations, enabling construction that is safe, stable and cost effective.',
   promise:
     'We are committed to delivering exceptional comfort, innovative design, engineering excellence and complete customer satisfaction in every project we undertake.',
 }
@@ -33,7 +33,7 @@ export const ASSURANCES = [
   {
     icon: IconShield,
     title: 'Quality Assurance',
-    copy: 'Premium materials, grade-tested steel and a third-party audit at every structural milestone.',
+    copy: 'Premium materials, grade tested steel and an independent audit at every structural milestone.',
   },
   {
     icon: IconTeam,
@@ -42,8 +42,8 @@ export const ASSURANCES = [
   },
   {
     icon: IconClock,
-    title: 'On-Time Delivery',
-    copy: 'Milestone-linked schedules, written into the agreement and honoured on the promised date.',
+    title: 'On Time Delivery',
+    copy: 'Schedules linked to milestones, written into the agreement and honoured on the promised date.',
   },
   {
     icon: IconHeartHand,
@@ -63,17 +63,17 @@ export const SERVICES = [
   {
     icon: IconVilla,
     title: 'Luxury Villa Construction',
-    copy: 'Ground-up villas built to your life, not a catalogue — imported stone, joinery cut on site, and a site engineer who knows your name.',
+    copy: 'Villas built from the ground up around your life, not a catalogue — imported stone, joinery cut on site, and a site engineer who knows your name.',
   },
   {
     icon: IconTower,
     title: 'Premium Villa Projects',
-    copy: 'Gated communities in Kerala’s most sought-after pockets, where every home is designed to hold its value and its beauty.',
+    copy: 'Gated communities in Kerala’s most desirable pockets, where every home is designed to hold its value and its beauty.',
   },
   {
     icon: IconPlot,
     title: 'Villa Plots',
-    copy: 'Clear-title, ready-to-build plots with approved layouts, paved approach roads and utilities already at your boundary wall.',
+    copy: 'Clear title plots, ready to build, with approved layouts, paved approach roads and utilities already at your boundary wall.',
   },
   {
     icon: IconHome,
@@ -93,7 +93,7 @@ export const SERVICES = [
   {
     icon: IconBlueprint,
     title: 'Architectural Planning',
-    copy: 'Climate-responsive plans drawn for Kerala light and Kerala rain, modelled in 3D before a single stone is laid.',
+    copy: 'Plans drawn to respond to Kerala light and Kerala rain, modelled in 3D before a single stone is laid.',
   },
   {
     icon: IconInterior,
@@ -115,7 +115,7 @@ export const PROJECTS = [
     category: 'Villas',
     highlight: '4 BHK · 3,850 sq.ft · Private courtyard & plunge pool',
     blurb:
-      'A calm, light-filled villa built around a central courtyard, where the monsoon becomes part of the architecture.',
+      'A calm villa filled with light, built around a central courtyard, where the monsoon becomes part of the architecture.',
     image: IMAGES.villaSerene,
     variant: 0,
   },
@@ -124,7 +124,7 @@ export const PROJECTS = [
     location: 'Thrissur',
     status: 'Completed',
     category: 'Villas',
-    highlight: '5 BHK · 5,200 sq.ft · Nalukettu-inspired elevation',
+    highlight: '5 BHK · 5,200 sq.ft · Traditional Nalukettu elevation',
     blurb:
       'Traditional Kerala proportions rendered in contemporary materials — carved teak, laterite and glass in one breath.',
     image: IMAGES.heritage,
@@ -148,7 +148,7 @@ export const PROJECTS = [
     category: 'Villa Plots',
     highlight: '18 plots · 6–12 cents · Clear title, approved layout',
     blurb:
-      'Ready-to-build plots on a quiet palm-lined stretch, minutes from the highway yet entirely removed from it. Soil-tested before listing.',
+      'Plots ready to build on a quiet stretch lined with palms, minutes from the highway yet entirely removed from it. Soil tested before listing.',
     image: IMAGES.palmGrove,
     variant: 3,
   },
@@ -157,7 +157,7 @@ export const PROJECTS = [
     location: 'Kozhikode',
     status: 'Completed',
     category: 'Villas',
-    highlight: '4 BHK · 4,100 sq.ft · Double-height living pavilion',
+    highlight: '4 BHK · 4,100 sq.ft · Double height living pavilion',
     blurb:
       'A hillside home with a living pavilion that opens completely to the west, built for long evenings and longer conversations.',
     image: IMAGES.casaMirada,
@@ -179,15 +179,15 @@ export const PROJECTS = [
 export const WHY_US = [
   {
     title: 'Premium Quality Construction',
-    copy: 'Grade-tested steel, branded cement and a third-party quality audit at every structural milestone.',
+    copy: 'Grade tested steel, branded cement and an independent quality audit at every structural milestone.',
   },
   {
     title: 'Transparent Pricing',
-    copy: 'A line-item estimate before you sign. No hidden escalation, no surprise variations mid-project.',
+    copy: 'An itemised estimate before you sign. No hidden escalation, no surprise variations once the project is underway.',
   },
   {
     title: 'Prime Locations',
-    copy: 'Plots and projects chosen for connectivity, neighbourhood quality and long-term appreciation.',
+    copy: 'Plots and projects chosen for connectivity, neighbourhood quality and lasting appreciation.',
   },
   {
     title: 'Modern Architecture',
@@ -203,14 +203,14 @@ export const WHY_US = [
   },
   {
     title: 'Timely Delivery',
-    copy: 'Milestone-linked schedules you can hold us to — and a track record of handing over on the promised date.',
+    copy: 'Schedules linked to milestones that you can hold us to — and a track record of handing over on the promised date.',
   },
   {
     title: 'Trusted Service',
     copy: 'Most of our work comes from referrals. That is the only review metric we genuinely care about.',
   },
   {
-    title: 'End-to-End Support',
+    title: 'Complete Support',
     copy: 'Land, approvals, design, build, interiors and handover documentation — one team, one accountability.',
   },
   {
@@ -298,7 +298,7 @@ export const FAQS = [
   },
   {
     q: 'What payment plans do you offer?',
-    a: 'Payments are milestone-linked, not calendar-linked: you pay when a stage is verifiably complete. A typical schedule is booking, foundation, slab-wise releases, finishing and handover. We are also empanelled with the major home-loan providers and can help you assemble the file.',
+    a: 'Payments are linked to milestones, not the calendar: you pay when a stage is verifiably complete. A typical schedule is booking, foundation, releases by slab, finishing and handover. We are also empanelled with the major home loan providers and can help you assemble the file.',
   },
   {
     q: 'How long does a villa take to build?',
@@ -314,10 +314,10 @@ export const FAQS = [
   },
   {
     q: 'Do you handle approvals and legal documentation?',
-    a: 'We do. Panchayat or corporation permits, building permits, occupancy certificate and the complete handover documentation set are all managed by our in-house team. Every plot we sell carries a clear, verified title.',
+    a: 'We do. Panchayat or corporation permits, building permits, occupancy certificate and the complete handover documentation set are all managed by our own team. Every plot we sell carries a clear, verified title.',
   },
   {
     q: 'Is there a warranty after handover?',
-    a: 'Yes — a structural warranty plus a defect-liability period covering workmanship, waterproofing and services. Our service team stays reachable long after that window closes; most of our referrals come from clients we handed over to years ago.',
+    a: 'Yes — a structural warranty plus a defect liability period covering workmanship, waterproofing and services. Our service team stays reachable long after that window closes; most of our referrals come from clients we handed over to years ago.',
   },
 ]

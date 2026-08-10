@@ -30,7 +30,7 @@ export default function Hero() {
 
         <span className="fh-stage eyebrow mt-9" style={{ animationDelay: `${copyDelay(0)}s` }}>
           <span className="h-px w-8 bg-gold/60" />
-          Building Excellence · Creating Value · Kerala
+          Building Excellence · Creating Value · Ernakulam
           <span className="h-px w-8 bg-gold/60" />
         </span>
 
@@ -45,7 +45,7 @@ export default function Hero() {
           className="fh-stage body-muted mt-6 max-w-2xl text-balance"
           style={{ animationDelay: `${copyDelay(2)}s` }}
         >
-          Luxury villas, premium villa plots and residential construction across Kerala — built
+          Luxury villas, premium villa plots and residential construction across Ernakulam — built
           on modern architecture, expert structural engineering and soil investigated before a
           single foundation is designed.
         </p>
@@ -77,7 +77,7 @@ export default function Hero() {
           {[
             ['12+', 'Years of craft'],
             ['150+', 'Homes delivered'],
-            ['100%', 'On-time handover'],
+            ['100%', 'On time handover'],
           ].map(([value, label]) => (
             <div key={label} className="glass rounded-xl px-3 py-4 sm:px-5">
               <dt className="font-display text-xl text-gold sm:text-3xl">{value}</dt>
