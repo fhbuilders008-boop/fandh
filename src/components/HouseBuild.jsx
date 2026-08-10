@@ -62,28 +62,57 @@ export default function HouseBuild() {
   const captionRefs = useRef([])
   const dotRefs = useRef([])
 
-  const [metaLoaded, setMetaLoaded] = useState(false)
+  const [videoReady, setVideoReady] = useState(false)
 
-  // Wait for duration to be known before any ScrollTrigger/pin math runs.
+  // Wait for the video to be fully buffered (not just metadata) before any
+  // ScrollTrigger/pin math runs — scrubbing against a video that's still
+  // streaming in makes every seek block on network I/O as well as decode,
+  // which reads as exactly the freeze-then-jump stutter this gate prevents.
   useLayoutEffect(() => {
     const video = videoRef.current
     if (!video) return
 
-    if (video.readyState >= 1) {
-      setMetaLoaded(true)
+    if (video.readyState >= 4) {
+      setVideoReady(true)
       return
     }
 
-    const onLoadedMetadata = () => setMetaLoaded(true)
-    video.addEventListener('loadedmetadata', onLoadedMetadata)
-    return () => video.removeEventListener('loadedmetadata', onLoadedMetadata)
+    const onCanPlayThrough = () => setVideoReady(true)
+    video.addEventListener('canplaythrough', onCanPlayThrough)
+    return () => video.removeEventListener('canplaythrough', onCanPlayThrough)
   }, [])
 
   useLayoutEffect(() => {
-    if (!metaLoaded) return
+    if (!videoReady) return
 
     const video = videoRef.current
     const duration = video.duration
+
+    // Video seeking is asynchronous — the browser can only resolve one seek
+    // at a time. Writing currentTime on every GSAP tick (up to display
+    // refresh rate) without waiting for the previous seek to settle causes
+    // seeks to queue up: the frame visibly freezes, then jumps once the
+    // backlog drains. This guard keeps at most one seek in flight and drops
+    // sub-frame-duration writes, letting the latest scroll-derived time win.
+    const FRAME_DURATION = 1 / 24
+    let pendingTime = null
+
+    const applyTime = (time) => {
+      if (video.seeking) {
+        pendingTime = time
+        return
+      }
+      if (Math.abs(time - video.currentTime) < FRAME_DURATION) return
+      video.currentTime = time
+    }
+
+    const onSeeked = () => {
+      if (pendingTime === null) return
+      const time = pendingTime
+      pendingTime = null
+      applyTime(time)
+    }
+    video.addEventListener('seeked', onSeeked)
 
     const mm = gsap.matchMedia()
 
@@ -139,7 +168,17 @@ export default function HouseBuild() {
           },
         })
 
-        tl.to(video, { currentTime: duration, ease: 'none', duration: PHASES.length }, 0)
+        const scrubTime = { value: video.currentTime }
+        tl.to(
+          scrubTime,
+          {
+            value: duration,
+            ease: 'none',
+            duration: PHASES.length,
+            onUpdate: () => applyTime(scrubTime.value),
+          },
+          0
+        )
 
         PHASES.forEach((_, i) => {
           tl.addLabel(`p${i}`, i)
@@ -161,8 +200,11 @@ export default function HouseBuild() {
       }
     )
 
-    return () => mm.revert()
-  }, [metaLoaded])
+    return () => {
+      video.removeEventListener('seeked', onSeeked)
+      mm.revert()
+    }
+  }, [videoReady])
 
   return (
     <section
@@ -237,12 +279,13 @@ export default function HouseBuild() {
               ref={panelRef}
               className="relative aspect-[900/520] w-full overflow-hidden rounded-3xl border border-gold/20 bg-maroonDark/40 shadow-deep"
             >
-              {/* Skeleton — visible until the video reports its duration, so
-                  ScrollTrigger never has to pin/scrub against an unknown length. */}
+              {/* Skeleton — visible until the video is fully buffered, so
+                  ScrollTrigger never has to pin/scrub against a video that's
+                  still streaming in. */}
               <div
                 aria-hidden="true"
                 className={`absolute inset-0 animate-pulse bg-gradient-to-br from-maroonDark/70 via-gold/[0.06] to-maroonDark/80 transition-opacity duration-500 ${
-                  metaLoaded ? 'pointer-events-none opacity-0' : 'opacity-100'
+                  videoReady ? 'pointer-events-none opacity-0' : 'opacity-100'
                 }`}
               />
               <video

@@ -121,7 +121,7 @@ export const PROJECTS = [
   },
   {
     name: 'The Heritage Residences',
-    location: 'Thrissur',
+    location: 'North Paravur, Ernakulam',
     status: 'Completed',
     category: 'Villas',
     highlight: '5 BHK · 5,200 sq.ft · Traditional Nalukettu elevation',
@@ -154,7 +154,7 @@ export const PROJECTS = [
   },
   {
     name: 'Casa Mirada',
-    location: 'Kozhikode',
+    location: 'Kothamangalam, Ernakulam',
     status: 'Completed',
     category: 'Villas',
     highlight: '4 BHK · 4,100 sq.ft · Double height living pavilion',
@@ -165,7 +165,7 @@ export const PROJECTS = [
   },
   {
     name: 'The Waterline',
-    location: 'Alappuzha',
+    location: 'Kumbalangi, Ernakulam',
     status: 'Completed',
     category: 'Villas',
     highlight: '3 BHK · 3,200 sq.ft · Backwater frontage & infinity deck',
@@ -231,21 +231,21 @@ export const TESTIMONIALS = [
     quote:
       'What struck me was the honesty. They talked me out of two expensive ideas that would not have aged well. That is not what a contractor does — that is what a partner does.',
     name: 'Rahul Varghese',
-    project: 'Casa Mirada, Kozhikode',
+    project: 'Casa Mirada, Kothamangalam',
     initials: 'RV',
   },
   {
     quote:
       'I was managing the build from Dubai. Weekly photos, weekly costs, a call every Friday. I never once felt like I was guessing about my own home.',
     name: 'Faisal Rahman',
-    project: 'The Waterline, Alappuzha',
+    project: 'The Waterline, Kumbalangi',
     initials: 'FR',
   },
   {
     quote:
       'The finish quality is what sold my sister on booking with them too. Six years in, not a single crack, not one leak through two monsoons.',
     name: 'Sreelakshmi Nair',
-    project: 'Heritage Residences, Thrissur',
+    project: 'Heritage Residences, North Paravur',
     initials: 'SN',
   },
 ]
