@@ -25,6 +25,23 @@ export function useLenis() {
     gsap.ticker.add(raf)
     gsap.ticker.lagSmoothing(0)
 
+    /**
+     * Section ScrollTriggers (see BrandAssemble, HouseBuild) are created in
+     * child-component layout effects that run before this effect. Their very
+     * first refresh — the one that turns a placeholder `start: 0` into the
+     * real scroll-pixel range — normally piggybacks on the browser's `load`
+     * event. That event has often already fired by the time React finishes
+     * mounting, and web fonts loading in afterwards (see index.html's
+     * `display=swap` Google Fonts) can shift section heights again after
+     * that. Both leave triggers stuck unrefreshed, so entry animations never
+     * play. Force a refresh once layout has settled, and again once fonts
+     * are in, rather than relying on GSAP's implicit auto-refresh timing.
+     */
+    const refresh = () => ScrollTrigger.refresh()
+    requestAnimationFrame(refresh)
+    if (document.fonts?.ready) document.fonts.ready.then(refresh)
+    window.addEventListener('load', refresh)
+
     // Anchor links go through Lenis so in-page jumps stay smooth.
     const onClick = (e) => {
       const anchor = e.target.closest('a[href^="#"]')
@@ -40,6 +57,7 @@ export function useLenis() {
 
     return () => {
       document.removeEventListener('click', onClick)
+      window.removeEventListener('load', refresh)
       gsap.ticker.remove(raf)
       lenis.destroy()
     }

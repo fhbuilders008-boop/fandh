@@ -4,7 +4,7 @@
 export const PHONE_DISPLAY = '+91 99615 33355'
 export const PHONE_TEL = '+919961533355'
 export const WHATSAPP_NUMBER = '919961533355'
-export const EMAIL = 'info@fhbuilders.in'
+export const EMAIL = 'fhbuilders008@gmail.com'
 export const ADDRESS =
   'Nandanam Square, Pukkattupady Bypass Road, Edathala PO, Pukkattupady, Aluva, Kerala 683561'
 
@@ -13,7 +13,9 @@ export const MAP_EMBED_SRC =
   encodeURIComponent('Nandanam Square, Pukkattupady Bypass Road, Edathala, Aluva, Kerala 683561') +
   '&output=embed'
 
-export const TAGLINE = 'Every wall holds a story'
+export const TAGLINE = 'Every Home Begins With Trust'
+
+export const INSTAGRAM_URL = 'https://www.instagram.com/fh_builders_developers?igsh=NDZsZzNyMHNwMTFq'
 
 /** Build a wa.me deep link with a pre-filled message. */
 export const waLink = (message = "Hello F&H Builders, I'd like to know more about your villa projects.") =>

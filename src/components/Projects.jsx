@@ -24,9 +24,9 @@ export default function Projects() {
       <div className="container-x">
         <SectionHeading
           eyebrow="Featured Projects"
-          title="Homes We Have"
-          accent="Signed Our Name To."
-          intro="Every project below is one we would drive you to tomorrow — because the families living in them will tell you the same thing we would."
+          title="Built With Pride."
+          accent="Trusted By Families."
+          intro="Every home we create is a reflection of our commitment to quality, craftsmanship, and the trust families place in us."
         />
 
         {/* Filter */}

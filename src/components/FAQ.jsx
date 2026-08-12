@@ -18,9 +18,9 @@ export default function FAQ() {
           <SectionHeading
             align="left"
             eyebrow="Questions, Answered"
-            title="Everything You Wanted"
-            accent="to Ask a Builder."
-            intro="No jargon, no evasions. If your question is not here, ask us directly — we will answer it just as plainly."
+            title="Ask Without Hesitation."
+            accent="Build With Trusted Developers."
+            intro="Clear answers. Honest advice. Complete transparency. If you don't find your question here, reach out to us directly — we're always happy to help."
           />
 
           <Reveal delay={0.2}>

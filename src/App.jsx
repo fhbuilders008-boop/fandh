@@ -12,7 +12,6 @@ import { useLenis } from './lib/useLenis'
 // Everything below the fold is code-split so the hero paints fast.
 const Projects = lazy(() => import('./components/Projects'))
 const WhyChooseUs = lazy(() => import('./components/WhyChooseUs'))
-const Testimonials = lazy(() => import('./components/Testimonials'))
 const Gallery = lazy(() => import('./components/Gallery'))
 const FAQ = lazy(() => import('./components/FAQ'))
 const Contact = lazy(() => import('./components/Contact'))
@@ -53,7 +52,6 @@ export default function App() {
         <Suspense fallback={<SectionFallback />}>
           <Projects />
           <WhyChooseUs />
-          <Testimonials />
           <Gallery />
           <FAQ />
           <Contact />

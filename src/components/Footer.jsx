@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { LogoLockup } from './LogoMark'
 import { SERVICES } from '../data/content'
-import { ADDRESS, EMAIL, NAV_LINKS, PHONE_DISPLAY, TAGLINE, TEL_LINK, waLink } from '../lib/site'
+import { ADDRESS, EMAIL, INSTAGRAM_URL, NAV_LINKS, PHONE_DISPLAY, TAGLINE, TEL_LINK, waLink } from '../lib/site'
 import {
   IconArrow,
   IconFacebook,
@@ -15,7 +15,7 @@ import {
 
 const SOCIALS = [
   { label: 'Facebook', href: 'https://facebook.com/', Icon: IconFacebook },
-  { label: 'Instagram', href: 'https://instagram.com/', Icon: IconInstagram },
+  { label: 'Instagram', href: INSTAGRAM_URL, Icon: IconInstagram },
   { label: 'WhatsApp', href: waLink(), Icon: IconWhatsApp },
   { label: 'LinkedIn', href: 'https://linkedin.com/', Icon: IconLinkedIn },
 ]
@@ -40,8 +40,10 @@ export default function Footer() {
         <div className="lg:col-span-1">
           <LogoLockup />
           <p className="mt-5 max-w-xs text-[13.5px] leading-relaxed text-ivory/55">
-            Luxury villas, premium villa plots, residential construction, geotechnical investigation
-            and complete construction consultancy across Ernakulam.
+            We design and build luxury villas, premium villa plots, and residential projects with
+            uncompromising quality. From soil testing and structural engineering to final handover,
+            every detail is planned to create a home that's beautiful, durable, and built for
+            generations.
           </p>
           <p className="mt-5 font-display text-base italic text-gold/85">“{TAGLINE}”</p>
         </div>

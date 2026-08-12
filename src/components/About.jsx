@@ -5,7 +5,9 @@ import GoldDivider from './GoldDivider'
 import Photo from './Photo'
 import { COMPANY, STATS } from '../data/content'
 import { IMAGES } from '../lib/images'
-import { TAGLINE, waLink } from '../lib/site'
+import { waLink } from '../lib/site'
+
+const SIGNATURE_LINE = 'Where Trust Becomes a Landmark.'
 
 export default function About() {
   const ref = useRef(null)
@@ -29,7 +31,7 @@ export default function About() {
 
           <Reveal delay={0.06}>
             <h2 className="heading-lg mt-5 text-balance text-ivory">
-              Building Dreams.{' '}
+              Building Homes.{' '}
               <span className="gold-text italic">Creating Legacies.</span>
             </h2>
           </Reveal>
@@ -44,13 +46,9 @@ export default function About() {
             <p className="body-muted mt-4">{COMPANY.approach}</p>
           </Reveal>
 
-          <Reveal delay={0.22}>
-            <p className="body-muted mt-4">{COMPANY.promise}</p>
-          </Reveal>
-
           <Reveal delay={0.26}>
             <blockquote className="mt-9 border-l-2 border-gold/60 pl-6">
-              <p className="font-display text-xl italic text-gold sm:text-2xl">“{TAGLINE}”</p>
+              <p className="font-display text-xl italic text-gold sm:text-2xl">“{SIGNATURE_LINE}”</p>
               <footer className="mt-2 text-xs uppercase tracking-[0.18em] text-ivory/50">
                 F&amp;H Builders &amp; Developers
               </footer>

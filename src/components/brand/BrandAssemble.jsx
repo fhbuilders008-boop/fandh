@@ -18,7 +18,8 @@ gsap.registerPlugin(ScrollTrigger)
  * converge into place. Outer shards travel further and settle first-to-last
  * from the centre out, so the logo reads as assembling itself from its own
  * fragments. A soft gold bloom breathes up behind it as the last shard
- * locks, then the descriptor tracks in.
+ * locks. The "Builders & Developers" descriptor is baked into the artwork
+ * itself, so it is never re-rendered as separate text here.
  *
  * Tall desktop viewports pin the hero and scrub the convergence against
  * scroll. Shorter/narrower viewports skip the pin — the hero's natural
@@ -50,7 +51,6 @@ export default function BrandAssemble({ className = '' }) {
   const rootRef = useRef(null)
   const shardRefs = useRef([])
   const bloomRef = useRef(null)
-  const taglineRef = useRef(null)
 
   useLayoutEffect(() => {
     const root = rootRef.current
@@ -77,7 +77,7 @@ export default function BrandAssemble({ className = '' }) {
 
         if (!motionOk) {
           gsap.set(shards, { x: 0, y: 0, rotate: 0, scale: 1, opacity: 1, filter: 'blur(0px)' })
-          gsap.set([bloomRef.current, taglineRef.current], { opacity: 1 })
+          gsap.set(bloomRef.current, { opacity: 1 })
           return
         }
 
@@ -97,7 +97,6 @@ export default function BrandAssemble({ className = '' }) {
           })
         })
         gsap.set(bloomRef.current, { opacity: 0, scale: 0.7 })
-        gsap.set(taglineRef.current, { opacity: 0, letterSpacing: '0.16em', y: 10 })
 
         // Distance from centre index (3) → outer shards settle later, giving a
         // centre-out lock. Order the convergence so the logo builds from spine
@@ -148,14 +147,8 @@ export default function BrandAssemble({ className = '' }) {
           )
         })
 
-        // Gold bloom breathes up behind the composed mark as the outer shards
-        // land, then the descriptor engraves out to full tracking.
+        // Gold bloom breathes up behind the composed mark as the outer shards land.
         tl.to(bloomRef.current, { opacity: 1, scale: 1, duration: 0.6, ease: 'power2.out' }, 0.42)
-        tl.to(
-          taglineRef.current,
-          { opacity: 1, letterSpacing: '0.46em', y: 0, duration: 0.5, ease: 'power2.out' },
-          0.6
-        )
       }
     )
 
@@ -183,10 +176,6 @@ export default function BrandAssemble({ className = '' }) {
           ))}
         </div>
       </div>
-
-      <p ref={taglineRef} className="fh-assemble-tagline" aria-hidden="true">
-        Builders &amp; Developers
-      </p>
 
       <span className="sr-only">F&amp;H Builders &amp; Developers</span>
     </div>

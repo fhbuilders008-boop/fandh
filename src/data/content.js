@@ -21,34 +21,32 @@ import { IMAGES } from '../lib/images'
  */
 export const COMPANY = {
   intro:
-    'F & H Builders & Developers is a premium real estate and construction company committed to creating exceptional living spaces across Ernakulam. We specialise in luxury villas, premium villa plots, residential construction, geotechnical investigation and complete construction consultancy.',
+    'Every great home begins with a vision. We transform that vision into exceptional living spaces through thoughtful design, expert engineering, and uncompromising craftsmanship. From luxury villas to complete construction solutions, every project is built with precision, transparency, and a commitment to lasting value.',
   approach:
-    'Every project is thoughtfully designed with modern architecture, expert structural engineering, comprehensive geotechnical investigation, superior craftsmanship and premium quality materials — ensuring safety, durability, elegance and lasting value. Our geotechnical investigations provide accurate soil analysis and foundation recommendations, enabling construction that is safe, stable and cost effective.',
-  promise:
-    'We are committed to delivering exceptional comfort, innovative design, engineering excellence and complete customer satisfaction in every project we undertake.',
+    "We believe a home is more than a structure it's where families grow, memories are created, and futures are built. That's why every detail is carefully planned and executed to deliver comfort, beauty, and confidence for generations.",
 }
 
 /** Assurance strip directly beneath the hero. */
 export const ASSURANCES = [
   {
     icon: IconShield,
-    title: 'Quality Assurance',
-    copy: 'Premium materials, grade tested steel and an independent audit at every structural milestone.',
+    title: 'Built On Trust',
+    copy: 'A reputation earned through honesty, accountability, and successful project delivery.',
   },
   {
     icon: IconTeam,
-    title: 'Expert Team',
-    copy: 'Architects, structural engineers and geotechnical specialists working as one accountable team.',
+    title: 'Structural Excellence',
+    copy: 'Designed by experts and engineered to withstand the test of time.',
   },
   {
     icon: IconClock,
-    title: 'On Time Delivery',
-    copy: 'Schedules linked to milestones, written into the agreement and honoured on the promised date.',
+    title: 'Precision In Every Detail',
+    copy: 'From foundation to finishing, every element is executed with uncompromising standards.',
   },
   {
     icon: IconHeartHand,
-    title: 'Customer Satisfaction',
-    copy: 'Complete transparency from soil report to handover — and long after the keys change hands.',
+    title: 'A Home, Not Just A Project',
+    copy: 'We build spaces where families create memories for generations.',
   },
 ]
 
@@ -63,22 +61,22 @@ export const SERVICES = [
   {
     icon: IconVilla,
     title: 'Luxury Villa Construction',
-    copy: 'Villas built from the ground up around your life, not a catalogue — imported stone, joinery cut on site, and a site engineer who knows your name.',
+    copy: 'Custom designed villas crafted with premium materials, expert engineering, and timeless elegance.',
   },
   {
     icon: IconTower,
     title: 'Premium Villa Projects',
-    copy: 'Gated communities in Kerala’s most desirable pockets, where every home is designed to hold its value and its beauty.',
+    copy: 'Exclusive communities designed for comfort, privacy, and long-term value.',
   },
   {
     icon: IconPlot,
     title: 'Villa Plots',
-    copy: 'Clear title plots, ready to build, with approved layouts, paved approach roads and utilities already at your boundary wall.',
+    copy: 'Clear title plots in prime locations, ready for your dream home.',
   },
   {
     icon: IconHome,
     title: 'Residential Construction',
-    copy: 'Family homes delivered with the same discipline as our flagship villas — structural integrity you will never have to think about.',
+    copy: 'Beautiful homes built with precision, transparency, and lasting quality.',
   },
   {
     icon: IconGeotech,
@@ -88,29 +86,29 @@ export const SERVICES = [
   {
     icon: IconConsult,
     title: 'Construction Consultancy',
-    copy: 'Costing, vendor vetting, approvals and quality audits. Independent advice from people who build, not just advise.',
+    copy: 'Expert guidance for planning, budgeting, approvals, and execution.',
   },
   {
     icon: IconBlueprint,
     title: 'Architectural Planning',
-    copy: 'Plans drawn to respond to Kerala light and Kerala rain, modelled in 3D before a single stone is laid.',
+    copy: 'Thoughtful designs that blend aesthetics, functionality, and modern living.',
   },
   {
     icon: IconInterior,
     title: 'Interior Solutions',
-    copy: 'Bespoke interiors finished to the millimetre — lighting, veneers, stone and soft furnishing curated as one composition.',
+    copy: 'Tailored interiors that transform houses into extraordinary homes.',
   },
   {
     icon: IconGrowth,
     title: 'Property Development',
-    copy: 'Land acquisition through handover, managed end to end, with returns modelled honestly before you commit a rupee.',
+    copy: 'End-to-end development solutions designed to maximize value and returns.',
   },
 ]
 
 export const PROJECTS = [
   {
     name: 'Villa Serene',
-    location: 'Kakkanad, Kochi',
+    location: 'Kakkanad, Ernakulam',
     status: 'Ongoing',
     category: 'Villas',
     highlight: '4 BHK · 3,850 sq.ft · Private courtyard & plunge pool',
@@ -132,7 +130,7 @@ export const PROJECTS = [
   },
   {
     name: 'F&H Skyline Enclave',
-    location: 'Edappally, Kochi',
+    location: 'Edappally, Ernakulam',
     status: 'Ongoing',
     category: 'Residential',
     highlight: '12 premium villas · Gated · Clubhouse & landscaped spine',
@@ -216,37 +214,6 @@ export const WHY_US = [
   {
     title: 'Excellent Investment Value',
     copy: 'Homes engineered and located to appreciate, so your residence is also your strongest asset.',
-  },
-]
-
-export const TESTIMONIALS = [
-  {
-    quote:
-      'We had been let down twice before we found F&H. They handed over three weeks early, and every rupee was accounted for. Walking into that house for the first time is a feeling I still cannot describe.',
-    name: 'Dr. Anitha Menon',
-    project: 'Villa Serene, Kakkanad',
-    initials: 'AM',
-  },
-  {
-    quote:
-      'What struck me was the honesty. They talked me out of two expensive ideas that would not have aged well. That is not what a contractor does — that is what a partner does.',
-    name: 'Rahul Varghese',
-    project: 'Casa Mirada, Kothamangalam',
-    initials: 'RV',
-  },
-  {
-    quote:
-      'I was managing the build from Dubai. Weekly photos, weekly costs, a call every Friday. I never once felt like I was guessing about my own home.',
-    name: 'Faisal Rahman',
-    project: 'The Waterline, Kumbalangi',
-    initials: 'FR',
-  },
-  {
-    quote:
-      'The finish quality is what sold my sister on booking with them too. Six years in, not a single crack, not one leak through two monsoons.',
-    name: 'Sreelakshmi Nair',
-    project: 'Heritage Residences, North Paravur',
-    initials: 'SN',
   },
 ]
 

@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react'
 import { AnimatePresence, motion } from 'framer-motion'
 import { LogoLockup } from './LogoMark'
-import { NAV_LINKS, TEL_LINK, waLink } from '../lib/site'
-import { IconClose, IconPhone } from './Icons'
+import { INSTAGRAM_URL, NAV_LINKS, TEL_LINK, waLink } from '../lib/site'
+import { IconClose, IconInstagram, IconPhone } from './Icons'
 
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false)
@@ -54,6 +54,15 @@ export default function Navbar() {
           </ul>
 
           <div className="hidden items-center gap-3 lg:flex">
+            <a
+              href={INSTAGRAM_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="F&H Builders & Developers on Instagram"
+              className="flex h-9 w-9 items-center justify-center rounded-full border border-gold/35 text-gold transition-all hover:border-gold hover:bg-gold/10"
+            >
+              <IconInstagram className="h-4 w-4" />
+            </a>
             <a href={TEL_LINK} className="btn-outline !px-5 !py-2.5 !text-[11px]">
               <IconPhone className="h-4 w-4" />
               Call Now
@@ -137,6 +146,16 @@ export default function Navbar() {
                 </a>
                 <a href={TEL_LINK} className="btn-outline w-full">
                   Call +91 99615 33355
+                </a>
+                <a
+                  href={INSTAGRAM_URL}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  onClick={() => setOpen(false)}
+                  className="mt-2 flex items-center justify-center gap-2 text-[13px] font-medium uppercase tracking-[0.12em] text-ivory/60 transition-colors hover:text-gold"
+                >
+                  <IconInstagram className="h-4 w-4" />
+                  Follow on Instagram
                 </a>
               </div>
             </div>

@@ -41,9 +41,9 @@ export default function CTABand() {
               </span>
 
               <h2 className="font-display text-3xl leading-tight text-ivory sm:text-4xl">
-                Let&apos;s Build Something
+                Your Dream Home Deserves
                 <br className="hidden sm:block" />{' '}
-                <span className="gold-text italic">Extraordinary Together.</span>
+                <span className="gold-text italic">The Right Builder.</span>
               </h2>
             </div>
 
@@ -51,8 +51,9 @@ export default function CTABand() {
 
             <div className="lg:flex-1">
               <p className="body-muted mx-auto max-w-md lg:mx-0">
-                Have a project in mind — a villa, a plot, or a soil report before you commit? Let&apos;s
-                talk it through, honestly and without obligation.
+                Whether you're planning a luxury villa, searching for the perfect plot, or taking
+                the first step toward your future home, we're here to guide you with honesty,
+                expertise, and complete transparency.
               </p>
               <a
                 href={TEL_LINK}
@@ -68,7 +69,7 @@ export default function CTABand() {
               rel="noopener noreferrer"
               className="btn-gold group shrink-0"
             >
-              Get In Touch
+              Start Your Journey
               <IconArrow className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" />
             </a>
           </div>

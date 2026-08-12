@@ -2,7 +2,7 @@ import SectionHeading from './SectionHeading'
 import { StaggerGroup, StaggerItem } from './Reveal'
 import { WHY_US } from '../data/content'
 import { IconCheck } from './Icons'
-import { TEL_LINK } from '../lib/site'
+import { waLink } from '../lib/site'
 
 export default function WhyChooseUs() {
   return (
@@ -41,12 +41,18 @@ export default function WhyChooseUs() {
               Still comparing builders? <span className="gold-text italic">Compare us honestly.</span>
             </h3>
             <p className="body-muted mt-3 max-w-2xl">
-              Send us any quote you have received. We will walk you through it line by line — brand,
-              grade and quantity — whether or not you ever build with us.
+              We believe trust is earned through transparency. Share any quotation you've received,
+              and we'll help you understand exactly what you're paying for — no pressure, no
+              obligations, just honest advice.
             </p>
           </div>
-          <a href={TEL_LINK} className="btn-gold shrink-0">
-            Talk to Our Team
+          <a
+            href={waLink("Hi F&H Builders, I'd like a free quotation review.")}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="btn-gold shrink-0"
+          >
+            Get a Free Quotation Review
           </a>
         </div>
       </div>

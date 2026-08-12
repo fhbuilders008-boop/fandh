@@ -1,10 +1,11 @@
 import { useState } from 'react'
 import SectionHeading from './SectionHeading'
 import Reveal from './Reveal'
-import { IconMail, IconPhone, IconPin, IconWhatsApp } from './Icons'
+import { IconInstagram, IconMail, IconPhone, IconPin, IconWhatsApp } from './Icons'
 import {
   ADDRESS,
   EMAIL,
+  INSTAGRAM_URL,
   MAP_EMBED_SRC,
   PHONE_DISPLAY,
   TEL_LINK,
@@ -64,9 +65,9 @@ export default function Contact() {
       <div className="container-x">
         <SectionHeading
           eyebrow="Get in Touch"
-          title="Let's Talk About"
-          accent="Your Future Home."
-          intro="One conversation — no pressure, no obligation. Tell us what you are imagining and we will tell you honestly what it takes."
+          title="Your Dream Home Deserves"
+          accent="The Right Builder."
+          intro="Built on trust. Driven by craftsmanship. Delivered with excellence."
         />
 
         <div className="mt-16 grid gap-8 lg:grid-cols-[1fr_1.1fr]">
@@ -122,6 +123,25 @@ export default function Contact() {
                         <span className="block text-[10px] uppercase tracking-widest2 text-ivory/45">Email</span>
                         <span className="mt-0.5 block font-display text-lg text-ivory group-hover:text-gold">
                           {EMAIL}
+                        </span>
+                      </span>
+                    </a>
+                  </li>
+
+                  <li>
+                    <a
+                      href={INSTAGRAM_URL}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="group flex items-start gap-4"
+                    >
+                      <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full border border-gold/35 bg-gold/10 text-gold transition-all group-hover:border-gold group-hover:bg-gold group-hover:text-maroonDark">
+                        <IconInstagram className="h-5 w-5" />
+                      </span>
+                      <span>
+                        <span className="block text-[10px] uppercase tracking-widest2 text-ivory/45">Instagram</span>
+                        <span className="mt-0.5 block font-display text-lg text-ivory group-hover:text-gold">
+                          @fh_builders_developers
                         </span>
                       </span>
                     </a>
