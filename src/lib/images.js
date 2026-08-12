@@ -24,12 +24,8 @@ export const IMAGES = {
   ctaVilla: 'photo-1613490493576-7fde63acd811', // poolside villa elevation
 
   // ── Projects ──────────────────────────────────────────────────────────
-  villaSerene: 'photo-1613977257363-707ba9348227',
-  heritage: 'photo-1568605114967-8130f3a36994',
-  skyline: 'photo-1600047509807-ba8f99d2cdde',
-  palmGrove: 'photo-1500382017468-9049fed747ef',
-  casaMirada: 'photo-1613490493576-7fde63acd811',
-  waterline: 'photo-1571003123894-1f0594d2b5d9',
+  // Real client photography — served from /public, not the Unsplash CDN.
+  upcomingWork: '/projects/land.jpeg',
 
   // ── Gallery: villas ───────────────────────────────────────────────────
   villaPool: 'photo-1600596542815-ffad4c1539a9',

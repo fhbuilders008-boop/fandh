@@ -107,70 +107,15 @@ export const SERVICES = [
 
 export const PROJECTS = [
   {
-    name: 'Villa Serene',
-    location: 'Kakkanad, Ernakulam',
-    status: 'Ongoing',
+    name: 'Upcoming Project',
+    location: 'Pazhanganad, Ernakulam',
+    status: 'Upcoming',
     category: 'Villas',
-    highlight: '4 BHK · 3,850 sq.ft · Private courtyard & plunge pool',
+    highlight: 'Foundation stage · Details to follow',
     blurb:
-      'A calm villa filled with light, built around a central courtyard, where the monsoon becomes part of the architecture.',
-    image: IMAGES.villaSerene,
+      'Groundwork underway on our newest site — full specifications to be announced as the project progresses.',
+    image: IMAGES.upcomingWork,
     variant: 0,
-  },
-  {
-    name: 'The Heritage Residences',
-    location: 'North Paravur, Ernakulam',
-    status: 'Completed',
-    category: 'Villas',
-    highlight: '5 BHK · 5,200 sq.ft · Traditional Nalukettu elevation',
-    blurb:
-      'Traditional Kerala proportions rendered in contemporary materials — carved teak, laterite and glass in one breath.',
-    image: IMAGES.heritage,
-    variant: 1,
-  },
-  {
-    name: 'F&H Skyline Enclave',
-    location: 'Edappally, Ernakulam',
-    status: 'Ongoing',
-    category: 'Residential',
-    highlight: '12 premium villas · Gated · Clubhouse & landscaped spine',
-    blurb:
-      'A limited enclave of twelve homes, each with its own garden frontage and a shared clubhouse that feels like a resort.',
-    image: IMAGES.skyline,
-    variant: 2,
-  },
-  {
-    name: 'Palm Grove Villa Plots',
-    location: 'Aluva, Ernakulam',
-    status: 'Ongoing',
-    category: 'Villa Plots',
-    highlight: '18 plots · 6–12 cents · Clear title, approved layout',
-    blurb:
-      'Plots ready to build on a quiet stretch lined with palms, minutes from the highway yet entirely removed from it. Soil tested before listing.',
-    image: IMAGES.palmGrove,
-    variant: 3,
-  },
-  {
-    name: 'Casa Mirada',
-    location: 'Kothamangalam, Ernakulam',
-    status: 'Completed',
-    category: 'Villas',
-    highlight: '4 BHK · 4,100 sq.ft · Double height living pavilion',
-    blurb:
-      'A hillside home with a living pavilion that opens completely to the west, built for long evenings and longer conversations.',
-    image: IMAGES.casaMirada,
-    variant: 4,
-  },
-  {
-    name: 'The Waterline',
-    location: 'Kumbalangi, Ernakulam',
-    status: 'Completed',
-    category: 'Villas',
-    highlight: '3 BHK · 3,200 sq.ft · Backwater frontage & infinity deck',
-    blurb:
-      'A backwater retreat where the deck reads as an extension of the water — piled to a geotechnical report, built for humidity.',
-    image: IMAGES.waterline,
-    variant: 5,
   },
 ]
 

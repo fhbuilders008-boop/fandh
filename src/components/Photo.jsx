@@ -30,14 +30,18 @@ export default function Photo({
   // A new source deserves a fresh attempt, even if the previous one 404'd.
   useEffect(() => setFailed(false), [id])
 
+  // Client photography lives under /public and is referenced by path
+  // (e.g. "/projects/foo.jpg"), so it skips the Unsplash CDN transform.
+  const isLocal = typeof id === 'string' && (id.startsWith('/') || /^https?:\/\//.test(id))
+
   return (
     <span className={`relative block overflow-hidden ${className}`}>
       <ArchVisual variant={fallbackVariant} className="absolute inset-0 h-full w-full" />
 
       {!failed && (
         <img
-          src={unsplash(id, 1080)}
-          srcSet={unsplashSrcSet(id)}
+          src={isLocal ? id : unsplash(id, 1080)}
+          srcSet={isLocal ? undefined : unsplashSrcSet(id)}
           sizes={sizes}
           alt={alt}
           loading={priority ? 'eager' : 'lazy'}
