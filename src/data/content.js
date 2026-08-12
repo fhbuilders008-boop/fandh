@@ -53,8 +53,8 @@ export const ASSURANCES = [
 /** Headline numbers, shared by the About section. */
 export const STATS = [
   { value: '150+', label: 'Projects Completed' },
-  { value: '100+', label: 'Happy Clients' },
-  { value: '12+', label: 'Years of Experience' },
+  { value: '150+', label: 'Happy Clients' },
+  { value: '18+', label: 'Years of Experience' },
 ]
 
 export const SERVICES = [
@@ -108,7 +108,7 @@ export const SERVICES = [
 export const PROJECTS = [
   {
     name: 'Upcoming Project',
-    location: 'Pazhanganad, Ernakulam',
+    location: 'Pazhanganad, Kadambrayar, Ernakulam',
     status: 'Upcoming',
     category: 'Villas',
     highlight: 'Foundation stage · Details to follow',

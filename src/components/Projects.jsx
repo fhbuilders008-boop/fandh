@@ -97,7 +97,15 @@ export default function Projects() {
 
                   <p className="mt-2 inline-flex items-center gap-1.5 text-[12px] uppercase tracking-[0.12em] text-gold/85">
                     <IconPin className="h-4 w-4" />
-                    {project.location}
+                    {project.location.split(/(Kadambrayar)/i).map((part, i) =>
+                      /Kadambrayar/i.test(part) ? (
+                        <strong key={i} className="font-bold">
+                          {part}
+                        </strong>
+                      ) : (
+                        part.replace(/, /g, ', ')
+                      )
+                    )}
                   </p>
 
                   <p className="mt-4 text-[13px] leading-relaxed text-ivory/60">{project.blurb}</p>
