@@ -63,23 +63,64 @@ export default function HouseBuild() {
   const dotRefs = useRef([])
 
   const [videoReady, setVideoReady] = useState(false)
+  const [videoFailed, setVideoFailed] = useState(false)
+  const primedRef = useRef(false)
 
-  // Wait for the video to be fully buffered (not just metadata) before any
-  // ScrollTrigger/pin math runs — scrubbing against a video that's still
-  // streaming in makes every seek block on network I/O as well as decode,
-  // which reads as exactly the freeze-then-jump stutter this gate prevents.
+  // Metadata (duration + first frame) is enough to start scrubbing — the
+  // browser buffers further frames as the scroll reaches them. Waiting for
+  // `canplaythrough` (fully buffered) instead used to gate everything, but
+  // iOS Safari routinely never fires it for a muted video that isn't
+  // actively playing — especially on cellular or in Low Power Mode — which
+  // left this section stuck on its skeleton forever on iPhone. A timeout is
+  // a belt-and-braces fallback so a slow network never blocks it indefinitely,
+  // and an outright load error degrades to the static reduced-motion layout
+  // instead of leaving captions in their pre-JS, all-stacked-and-visible state.
   useLayoutEffect(() => {
     const video = videoRef.current
     if (!video) return
 
-    if (video.readyState >= 4) {
+    let settled = false
+    const markReady = () => {
+      if (settled) return
+      settled = true
       setVideoReady(true)
-      return
     }
 
-    const onCanPlayThrough = () => setVideoReady(true)
-    video.addEventListener('canplaythrough', onCanPlayThrough)
-    return () => video.removeEventListener('canplaythrough', onCanPlayThrough)
+    // iOS Safari refuses to honour programmatic `currentTime` seeks on a
+    // video that has never actually played — scrubbing silently no-ops.
+    // A muted video is allowed to autoplay under WebKit's policy, so a
+    // single play-then-immediately-pause "primes" seeking for the rest of
+    // the section's lifetime.
+    const primeSeeking = () => {
+      if (primedRef.current) return
+      primedRef.current = true
+      video.play()
+        .then(() => video.pause())
+        .catch(() => {})
+    }
+
+    if (video.readyState >= 1) {
+      markReady()
+      primeSeeking()
+    } else {
+      video.addEventListener('loadedmetadata', markReady)
+      video.addEventListener('loadedmetadata', primeSeeking)
+    }
+
+    const fallback = window.setTimeout(markReady, 2500)
+
+    const onError = () => {
+      setVideoFailed(true)
+      markReady()
+    }
+    video.addEventListener('error', onError)
+
+    return () => {
+      video.removeEventListener('loadedmetadata', markReady)
+      video.removeEventListener('loadedmetadata', primeSeeking)
+      video.removeEventListener('error', onError)
+      window.clearTimeout(fallback)
+    }
   }, [])
 
   useLayoutEffect(() => {
@@ -87,6 +128,11 @@ export default function HouseBuild() {
 
     const video = videoRef.current
     const duration = video.duration
+    // A failed load or an undecodable/zero-length source leaves `duration`
+    // as NaN or Infinity — feeding that into the GSAP tween below would
+    // silently break the timeline. Treat it exactly like reduced motion:
+    // show the finished state instead of a broken scrub.
+    const videoUsable = !videoFailed && Number.isFinite(duration) && duration > 0
 
     // Video seeking is asynchronous — the browser can only resolve one seek
     // at a time. Writing currentTime on every GSAP tick (up to display
@@ -130,8 +176,8 @@ export default function HouseBuild() {
       (ctx) => {
         const { desktop, motionOk } = ctx.conditions
 
-        if (!motionOk) {
-          video.currentTime = duration
+        if (!motionOk || !videoUsable) {
+          if (videoUsable) video.currentTime = duration
           gsap.set(captionRefs.current, { opacity: 0, y: 0 })
           gsap.set(captionRefs.current[captionRefs.current.length - 1], { opacity: 1 })
           gsap.set(dotRefs.current, { opacity: 0.35 })
@@ -204,7 +250,7 @@ export default function HouseBuild() {
       video.removeEventListener('seeked', onSeeked)
       mm.revert()
     }
-  }, [videoReady])
+  }, [videoReady, videoFailed])
 
   return (
     <section
@@ -246,11 +292,16 @@ export default function HouseBuild() {
           </Reveal>
 
           <div className="relative mt-8 min-h-[190px]">
+            {/* Only the first caption is visible by class default — before
+                GSAP's gsap.set() runs (or if it never gets the chance to,
+                e.g. a slow/failed video load) all five would otherwise
+                render stacked on top of each other at full opacity. GSAP's
+                inline styles take over and override this once it initialises. */}
             {PHASES.map((phase, i) => (
               <div
                 key={phase.tag}
                 ref={(el) => (captionRefs.current[i] = el)}
-                className="absolute inset-0"
+                className={`absolute inset-0 ${i === 0 ? '' : 'opacity-0'}`}
               >
                 <span className="font-display text-sm text-gold/70">{phase.tag}</span>
                 <h3 className="mt-2 font-display text-2xl text-ivory sm:text-[28px]">
@@ -266,7 +317,7 @@ export default function HouseBuild() {
               <span
                 key={phase.tag}
                 ref={(el) => (dotRefs.current[i] = el)}
-                className="h-1.5 w-8 rounded-full bg-gold"
+                className={`h-1.5 w-8 rounded-full bg-gold ${i === 0 ? '' : 'opacity-[0.35]'}`}
               />
             ))}
           </div>
@@ -279,13 +330,15 @@ export default function HouseBuild() {
               ref={panelRef}
               className="relative aspect-[900/520] w-full overflow-hidden rounded-3xl border border-gold/20 bg-maroonDark/40 shadow-deep"
             >
-              {/* Skeleton — visible until the video is fully buffered, so
-                  ScrollTrigger never has to pin/scrub against a video that's
-                  still streaming in. */}
+              {/* Skeleton — visible until the video has usable metadata, and
+                  held in its pulsing state (rather than fading to a blank
+                  video box) if the source fails to load at all. */}
               <div
                 aria-hidden="true"
-                className={`absolute inset-0 animate-pulse bg-gradient-to-br from-maroonDark/70 via-gold/[0.06] to-maroonDark/80 transition-opacity duration-500 ${
-                  videoReady ? 'pointer-events-none opacity-0' : 'opacity-100'
+                className={`absolute inset-0 bg-gradient-to-br from-maroonDark/70 via-gold/[0.06] to-maroonDark/80 transition-opacity duration-500 ${
+                  videoReady && !videoFailed
+                    ? 'pointer-events-none opacity-0'
+                    : 'animate-pulse opacity-100'
                 }`}
               />
               <video
