@@ -90,7 +90,7 @@ export default function Hero() {
           style={{ animationDelay: `${copyDelay(4)}s` }}
         >
           {[
-            ['12+', 'Years of craft'],
+            ['18+', 'Years of craft'],
             ['150+', 'Homes delivered'],
             ['100%', 'On time handover'],
           ].map(([value, label]) => (

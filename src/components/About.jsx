@@ -104,7 +104,7 @@ export default function About() {
           {/* Years-of-excellence plate, overlapping the photograph */}
           <Reveal direction="up" delay={0.2}>
             <div className="absolute -bottom-8 -left-4 flex w-[230px] items-center gap-4 rounded-2xl bg-gold-gradient p-5 shadow-deep sm:-left-10 sm:w-[268px]">
-              <p className="font-display text-4xl leading-none text-maroonDark sm:text-5xl">12+</p>
+              <p className="font-display text-4xl leading-none text-maroonDark sm:text-5xl">18+</p>
               <p className="text-[11px] font-semibold uppercase leading-snug tracking-[0.14em] text-maroonDark/80">
                 Years of
                 <br />

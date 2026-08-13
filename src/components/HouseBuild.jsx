@@ -304,7 +304,7 @@ export default function HouseBuild() {
             ref={badgeRef}
             className="absolute -bottom-6 left-6 flex items-center gap-4 rounded-2xl bg-gold-gradient p-5 shadow-deep sm:left-10"
           >
-            <p className="font-display text-4xl leading-none text-maroonDark">12+</p>
+            <p className="font-display text-4xl leading-none text-maroonDark">18+</p>
             <p className="text-[11px] font-semibold uppercase leading-snug tracking-[0.14em] text-maroonDark/80">
               Years Building
               <br />
